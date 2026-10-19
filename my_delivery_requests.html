@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Home Delivery Requests | Smart PDS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background: #f3f6fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            color: #123b6d;
+        }
+
+        .request-card {
+            border: none;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .request-card:hover {
+            box-shadow: 0 8px 24px rgba(18, 59, 109, 0.10);
+        }
+
+        .status-badge {
+            font-size: 12px;
+            padding: 9px 12px;
+            border-radius: 20px;
+        }
+
+        .section-label {
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .date-value {
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .btn-pds {
+            background: #123b6d;
+            color: white;
+            border: none;
+        }
+
+        .btn-pds:hover {
+            background: #0b2b52;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+
+        <div>
+            <h2 class="fw-bold page-title">
+                <i class="bi bi-house-heart me-2"></i>
+                My Home Delivery Requests
+            </h2>
+
+            <p class="text-muted mb-0">
+                Welcome, {{ name }}. Track your ration delivery requests here.
+            </p>
+        </div>
+
+        <a href="{{ url_for('home_delivery') }}" class="btn btn-pds">
+            <i class="bi bi-plus-circle me-1"></i>
+            Request Home Delivery
+        </a>
+
+    </div>
+
+    <!-- Request Cards -->
+    {% if requests %}
+
+        {% for req in requests %}
+
+        <div class="card request-card shadow-sm mb-4">
+
+            <div class="card-body p-4">
+
+                <!-- Request Header -->
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+
+                    <div>
+                        <small class="text-muted">REQUEST NUMBER</small>
+
+                        <h5 class="fw-bold page-title mt-1">
+                            {{ req.request_number }}
+                        </h5>
+
+                        <p class="mb-1">
+                            <strong>Eligibility:</strong>
+                            {{ req.eligibility_reason.replace('_', ' ') }}
+                        </p>
+
+                        <p class="mb-0">
+                            <strong>Fair Price Shop:</strong>
+                            {{ req.shop_name or 'Not available' }}
+                        </p>
+                    </div>
+
+                    <div>
+                        {% if req.status == "PENDING" %}
+                            <span class="badge bg-warning text-dark status-badge">
+                                <i class="bi bi-clock me-1"></i> PENDING
+                            </span>
+
+                        {% elif req.status == "APPROVED" %}
+                            <span class="badge bg-success status-badge">
+                                <i class="bi bi-check-circle me-1"></i> APPROVED
+                            </span>
+
+                        {% elif req.status == "REJECTED" %}
+                            <span class="badge bg-danger status-badge">
+                                <i class="bi bi-x-circle me-1"></i> REJECTED
+                            </span>
+
+                        {% elif req.status == "OUT_FOR_DELIVERY" %}
+                            <span class="badge bg-primary status-badge">
+                                <i class="bi bi-truck me-1"></i> OUT FOR DELIVERY
+                            </span>
+
+                        {% elif req.status == "DELIVERED" %}
+                            <span class="badge bg-success status-badge">
+                                <i class="bi bi-house-check me-1"></i> DELIVERED
+                            </span>
+
+                        {% elif req.status == "CANCELLED" %}
+                            <span class="badge bg-secondary status-badge">
+                                CANCELLED
+                            </span>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- Delivery Status Information -->
+                {% if req.status == "PENDING" %}
+
+                    <div class="alert alert-warning">
+                        <i class="bi bi-hourglass-split me-2"></i>
+                        Your request has been submitted and is awaiting administrator approval.
+                    </div>
+
+                {% elif req.status == "APPROVED" %}
+
+                    <div class="alert alert-success">
+                        <h6 class="fw-bold">
+                            <i class="bi bi-calendar-check me-2"></i>
+                            Estimated Delivery: Within 1–2 Days
+                        </h6>
+
+                        {% if req.estimated_start and req.estimated_end %}
+                            <p class="mb-1">
+                                Expected between
+                                <strong>{{ req.estimated_start.strftime('%d-%m-%Y') }}</strong>
+                                and
+                                <strong>{{ req.estimated_end.strftime('%d-%m-%Y') }}</strong>.
+                            </p>
+                        {% endif %}
+
+                        <small>
+                            These dates are estimates and are not a confirmed appointment.
+                        </small>
+                    </div>
+
+                {% elif req.status == "OUT_FOR_DELIVERY" %}
+
+                    <div class="alert alert-primary">
+                        <h6 class="fw-bold">
+                            <i class="bi bi-truck me-2"></i>
+                            Your Ration Is Out for Delivery
+                        </h6>
+
+                        <p class="mb-0">
+                            Your request has been dispatched. Please wait for delivery confirmation.
+                        </p>
+                    </div>
+
+                {% elif req.status == "DELIVERED" %}
+
+                    <div class="alert alert-success">
+                        <h6 class="fw-bold">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            Delivery Completed Successfully
+                        </h6>
+
+                        {% if req.delivered_at %}
+                            <p class="mb-0">
+                                Delivered on:
+                                <strong>
+                                    {{ req.delivered_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                </strong>
+                            </p>
+                        {% else %}
+                            <p class="mb-0">Your request is marked as delivered.</p>
+                        {% endif %}
+                    </div>
+
+                {% elif req.status == "REJECTED" %}
+
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        Your home delivery request was rejected.
+                    </div>
+
+                {% elif req.status == "CANCELLED" %}
+
+                    <div class="alert alert-secondary">
+                        This home delivery request has been cancelled.
+                    </div>
+
+                {% endif %}
+
+                <!-- Request Timeline -->
+                <div class="row g-3 mt-2">
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded h-100">
+                            <div class="section-label">
+                                <i class="bi bi-calendar-plus me-1"></i>
+                                REQUESTED
+                            </div>
+
+                            <div class="date-value mt-2">
+                                {% if req.requested_at %}
+                                    {{ req.requested_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                {% else %}
+                                    Not available
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded h-100">
+                            <div class="section-label">
+                                <i class="bi bi-calendar-check me-1"></i>
+                                APPROVED
+                            </div>
+
+                            <div class="date-value mt-2">
+                                {% if req.approved_at %}
+                                    {{ req.approved_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                {% else %}
+                                    Awaiting approval
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded h-100">
+                            <div class="section-label">
+                                <i class="bi bi-house-check me-1"></i>
+                                DELIVERED
+                            </div>
+
+                            <div class="date-value mt-2">
+                                {% if req.delivered_at %}
+                                    {{ req.delivered_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                {% else %}
+                                    Not delivered yet
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Administrator Remarks -->
+                {% if req.admin_remarks %}
+
+                    <div class="alert alert-light border mt-3 mb-0">
+                        <strong>
+                            <i class="bi bi-chat-left-text me-1"></i>
+                            Administrator Remarks
+                        </strong>
+
+                        <p class="mb-0 mt-1">{{ req.admin_remarks }}</p>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+
+                <i class="bi bi-house-heart display-4 text-secondary"></i>
+
+                <h5 class="fw-bold mt-3">No Delivery Requests Yet</h5>
+
+                <p class="text-muted">
+                    You have not submitted any home delivery requests.
+                </p>
+
+                <a href="{{ url_for('home_delivery') }}" class="btn btn-pds">
+                    <i class="bi bi-plus-circle me-1"></i>
+                    Request Home Delivery
+                </a>
+
+            </div>
+        </div>
+
+    {% endif %}
+
+    <!-- Academic Project Note -->
+    <p class="text-center text-muted small mt-4">
+        AI-Based Smart PDS Intelligence & Decision Support System
+        <br>
+        Academic Project Demonstration
+    </p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

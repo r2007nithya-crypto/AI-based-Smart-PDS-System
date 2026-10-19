@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Home Delivery | Smart PDS</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        body {
+            background: #f5f8fc;
+            font-family: Arial, sans-serif;
+        }
+
+        .delivery-card {
+            max-width: 700px;
+            margin: 60px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .title {
+            color: #123b6d;
+            font-weight: 800;
+        }
+
+        .btn-primary {
+            background: #123b6d;
+            border: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="delivery-card">
+
+        <h2 class="title">
+            <i class="bi bi-house-heart me-2"></i>
+            Home Delivery Request
+        </h2>
+
+        <p class="text-muted">
+            Home delivery is available only for eligible citizens.
+            Your request will be verified by the administrator.
+        </p>
+
+
+        {% if success %}
+
+            <div class="alert alert-success">
+
+                <strong>Request Submitted!</strong>
+
+                <br>
+
+                {{ success }}
+
+                <br><br>
+
+                Request Number:
+                <strong>{{ request_number }}</strong>
+
+            </div>
+
+        {% endif %}
+
+
+        {% if error %}
+
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Eligibility Reason
+                </label>
+
+                <select
+                    name="eligibility_reason"
+                    class="form-select"
+                    required
+                >
+
+                    <option value="">
+                        Select eligibility reason
+                    </option>
+
+                    <option value="SENIOR_CITIZEN">
+                        Senior Citizen
+                    </option>
+
+                    <option value="DIFFERENTLY_ABLED">
+                        Differently-Abled
+                    </option>
+
+                    <option value="BEDRIDDEN">
+                        Bedridden
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Supporting Document
+                </label>
+
+                <input
+                    type="file"
+                    name="evidence_file"
+                    class="form-control"
+                >
+
+                <small class="text-muted">
+                    Upload a supporting document for verification.
+                </small>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label fw-bold">
+                    Additional Notes
+                </label>
+
+                <textarea
+                    name="request_notes"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Provide any additional information..."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+            >
+
+                <i class="bi bi-send me-1"></i>
+                Submit Home Delivery Request
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

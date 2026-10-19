@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Smart PDS</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Existing project CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+        :root {
+            --pds-navy: #123b6d;
+            --pds-blue: #1769aa;
+            --pds-gold: #f0cb78;
+            --pds-text: #182b43;
+            --pds-muted: #69788b;
+            --pds-border: #e1e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body.smart-login-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: "Inter", "Noto Sans Tamil", sans-serif;
+            color: var(--pds-text);
+            background: #f3f6fa;
+        }
+
+        /* Academic project notice */
+        .smart-topbar {
+            position: relative;
+            z-index: 2;
+            padding: 10px 16px;
+            color: #eaf2fc;
+            background: #102f53;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.15px;
+        }
+
+        /* Main split-screen area */
+        .smart-login-area {
+            flex: 1;
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            padding: 24px;
+        }
+
+        .smart-login-wrapper {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .smart-login-wrapper > .row {
+            min-height: 650px;
+            height: 100%;
+            margin: 0;
+            --bs-gutter-x: 0;
+            align-items: stretch;
+            background: #fff;
+            border: 1px solid #e3eaf2;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(20, 43, 72, 0.09);
+        }
+
+        .smart-login-wrapper > .row > [class*="col-"] {
+            padding: 0;
+        }
+
+        /* LEFT: full-cover photograph */
+        .smart-login-info {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 650px;
+            height: 100%;
+            padding: 60px clamp(32px, 4.5vw, 70px);
+            color: #fff;
+            background-color: #123b6d;
+            background-image:
+                linear-gradient(
+                    115deg,
+                    rgba(8, 35, 66, 0.76) 0%,
+                    rgba(13, 53, 91, 0.56) 48%,
+                    rgba(16, 65, 96, 0.35) 100%
+                ),
+                url("/static/images/pds-login-illustration.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Subtle blue atmospheric tint */
+        .smart-login-info::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: linear-gradient(
+                180deg,
+                rgba(7, 27, 50, 0.05) 0%,
+                rgba(7, 27, 50, 0.02) 45%,
+                rgba(7, 27, 50, 0.32) 100%
+            );
+        }
+
+        .smart-login-info .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: #ffe09a;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            line-height: 1.7;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+        }
+
+        .smart-login-info .eyebrow::before {
+            content: "";
+            width: 28px;
+            height: 2px;
+            flex-shrink: 0;
+            border-radius: 2px;
+            background: var(--pds-gold);
+        }
+
+        .smart-login-info h1 {
+            max-width: 540px;
+            margin: 0 0 22px;
+            color: #fff;
+            font-size: clamp(34px, 3.4vw, 50px);
+            font-weight: 800;
+            line-height: 1.17;
+            letter-spacing: -1.5px;
+            text-wrap: balance;
+            text-shadow: 0 3px 16px rgba(0, 0, 0, 0.38);
+        }
+
+        .smart-login-info > p {
+            max-width: 470px;
+            margin: 0 0 30px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.9;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+        }
+
+        /* Feature rows */
+        .smart-login-info .smart-feature {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 15px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.6;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .smart-login-info .smart-feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 43px;
+            width: 43px;
+            height: 43px;
+            border: 1px solid rgba(255, 255, 255, 0.34);
+            border-radius: 13px;
+            color: #fff;
+            background: rgba(11, 37, 67, 0.42);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-size: 17px;
+            text-shadow: none;
+        }
+
+        /* RIGHT: login panel */
+        .smart-login-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 650px;
+            height: 100%;
+            padding: 48px clamp(28px, 3.5vw, 54px);
+            background: #fff;
+        }
+
+        .smart-emblem {
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .smart-emblem img {
+            display: inline-block;
+            width: 66px;
+            height: 66px;
+            object-fit: contain;
+        }
+
+        .smart-login-title {
+            margin-bottom: 26px;
+            text-align: center;
+        }
+
+        .smart-login-title .small-title {
+            margin-bottom: 10px;
+            color: var(--pds-blue);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .smart-login-title h2 {
+            margin: 0 0 9px;
+            color: #142d4b;
+            font-size: clamp(27px, 2.3vw, 34px);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .smart-login-title p {
+            margin: 0;
+            color: var(--pds-muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .smart-error {
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        /* Form fields */
+        .smart-form-label {
+            display: block;
+            margin-bottom: 9px;
+            color: #293c53;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .smart-input-group {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            min-height: 50px;
+            overflow: hidden;
+            border: 1px solid #dbe4ef;
+            border-radius: 11px;
+            background: #f9fbfd;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease,
+                        background 0.2s ease;
+        }
+
+        .smart-input-group:focus-within {
+            border-color: #4d91d2;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(44, 123, 190, 0.10);
+        }
+
+        .smart-input-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 46px;
+            color: #6c829c;
+            font-size: 17px;
+        }
+
+        .smart-input-group input {
+            width: 100%;
+            min-width: 0;
+            min-height: 48px;
+            padding: 12px 14px 12px 0;
+            border: 0;
+            outline: 0;
+            color: #1d3048;
+            background: transparent;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: none;
+        }
+
+        .smart-input-group input::placeholder {
+            color: #9aa8b8;
+            opacity: 1;
+        }
+
+        .smart-login-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            min-height: 51px;
+            padding: 13px 18px;
+            border: 1px solid #1769aa;
+            border-radius: 11px;
+            color: #fff;
+            background: linear-gradient(110deg, #155a98, #1d76b9);
+            box-shadow: 0 8px 18px rgba(23, 105, 170, 0.19);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .smart-login-button:hover {
+            color: #fff;
+            background: linear-gradient(110deg, #104c83, #1769aa);
+            box-shadow: 0 10px 22px rgba(23, 105, 170, 0.26);
+            transform: translateY(-1px);
+        }
+
+        .smart-register-box {
+            margin-top: 25px;
+            color: #66768a;
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .smart-register-box a {
+            display: inline-block;
+            margin-left: 3px;
+            color: #1769aa;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .smart-register-box a:hover {
+            color: #104c83;
+            text-decoration: underline;
+        }
+
+        .smart-security {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid #edf1f6;
+            color: #718096;
+            font-size: 10px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .smart-security i {
+            flex-shrink: 0;
+            color: #25805b;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .smart-footer {
+            padding: 17px 16px;
+            color: #718096;
+            background: #f3f6fa;
+            font-size: 11px;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        /* Tablet and mobile */
+        @media (max-width: 991.98px) {
+            .smart-login-area {
+                align-items: flex-start;
+                padding: 24px 18px;
+            }
+
+            .smart-login-wrapper {
+                max-width: 520px;
+            }
+
+            .smart-login-wrapper > .row {
+                min-height: auto;
+                border-radius: 20px;
+            }
+
+            .smart-login-info {
+                display: none;
+            }
+
+            .smart-login-card {
+                min-height: auto;
+                padding: 38px 34px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .smart-topbar {
+                font-size: 10px;
+            }
+
+            .smart-login-area {
+                padding: 16px 12px;
+            }
+
+            .smart-login-wrapper > .row {
+                border-radius: 16px;
+            }
+
+            .smart-login-card {
+                padding: 30px 22px;
+            }
+
+            .smart-emblem img {
+                width: 58px;
+                height: 58px;
+            }
+
+            .smart-login-title {
+                margin-bottom: 23px;
+            }
+
+            .smart-login-title h2 {
+                font-size: 28px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="smart-login-page">
+
+    <!-- Academic project notice -->
+    <div class="smart-topbar">
+        <div class="container text-center">
+            <i class="bi bi-info-circle-fill me-1"></i>
+            Academic Project &bull; Not an Official Government Website
+        </div>
+    </div>
+
+    <!-- Login area -->
+    <section class="smart-login-area">
+        <div class="smart-login-wrapper">
+            <div class="row">
+
+                <!-- Left image and information -->
+                <div class="col-lg-7">
+                    <div class="smart-login-info">
+
+                        <div class="eyebrow">
+                            SMART PUBLIC DISTRIBUTION SYSTEM
+                        </div>
+
+                        <h1>
+                            Digital Services for a Smarter PDS
+                        </h1>
+
+                        <p>
+                            Access your ration entitlements, collection services,
+                            complaints, home delivery requests and intelligent
+                            citizen support through one unified platform.
+                        </p>
+
+                        <div class="smart-feature">
+                            <div class="smart-feature-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <span>Secure Citizen Access</span>
+                        </div>
+
+                        <div class="smart-feature">
+                            <div class="smart-feature-icon">
+                                <i class="bi bi-translate"></i>
+                            </div>
+                            <span>English &amp; Tamil Support</span>
+                        </div>
+
+                        <div class="smart-feature">
+                            <div class="smart-feature-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
+                            <span>AI-Powered Citizen Assistance</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right login card -->
+                <div class="col-lg-5">
+                    <div class="smart-login-card">
+
+                        <!-- Emblem -->
+                        <div class="smart-emblem">
+                            <img
+                                src="{{ url_for('static', filename='images/tn-emblem.png') }}"
+                                alt="Tamil Nadu emblem"
+                            >
+                        </div>
+
+                        <!-- Title -->
+                        <div class="smart-login-title">
+                            <div class="small-title">
+                                SMART PDS PORTAL
+                            </div>
+
+                            <h2>Welcome Back</h2>
+
+                            <p>Sign in to continue to your services</p>
+                        </div>
+
+                        <!-- Existing Flask error handling -->
+                        {% if error %}
+                        <div class="alert alert-danger smart-error">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i>
+                            {{ error }}
+                        </div>
+                        {% endif %}
+
+                        <!-- Existing login form and route -->
+                        <form method="POST" action="{{ url_for('login') }}">
+
+                            <div class="mb-3">
+                                <label for="username" class="smart-form-label">
+                                    Username
+                                </label>
+
+                                <div class="smart-input-group">
+                                    <div class="smart-input-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+
+                                    <input
+                                        id="username"
+                                        type="text"
+                                        name="username"
+                                        placeholder="Enter your username"
+                                        autocomplete="username"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="smart-form-label">
+                                    Password
+                                </label>
+
+                                <div class="smart-input-group">
+                                    <div class="smart-input-icon">
+                                        <i class="bi bi-lock"></i>
+                                    </div>
+
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Enter your password"
+                                        autocomplete="current-password"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <button type="submit" class="smart-login-button">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Sign In
+                            </button>
+
+                        </form>
+
+                        <!-- Existing registration route -->
+                        <div class="smart-register-box">
+                            New citizen?
+                            <a href="{{ url_for('register') }}">
+                                Create Citizen Account
+                            </a>
+                        </div>
+
+                        <div class="smart-security">
+                            <i class="bi bi-shield-check"></i>
+                            <span>
+                                Government/Admin users use authorized credentials
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="smart-footer">
+        Smart PDS &bull; AI-Based Public Distribution System
+        <br>
+        Academic / Student Project &bull; Tamil Nadu
+    </footer>
+
+</body>
+</html>

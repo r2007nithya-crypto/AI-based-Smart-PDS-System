@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delivery Requests | Smart PDS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background: #f3f6fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            color: #123b6d;
+        }
+
+        .request-card {
+            border: none;
+            border-radius: 14px;
+        }
+
+        .status-badge {
+            padding: 9px 12px;
+            border-radius: 20px;
+        }
+
+        .btn-pds {
+            background: #123b6d;
+            color: white;
+        }
+
+        .btn-pds:hover {
+            background: #0b2b52;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <div class="mb-4">
+        <h2 class="fw-bold page-title">
+            <i class="bi bi-house-heart me-2"></i>
+            Home Delivery Requests
+        </h2>
+
+        <p class="text-muted">
+            Review citizen requests and update delivery progress.
+        </p>
+    </div>
+
+    {% if requests %}
+
+        {% for req in requests %}
+
+        <div class="card request-card shadow-sm mb-4">
+            <div class="card-body p-4">
+
+                <!-- Request Details -->
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+
+                    <div>
+                        <small class="text-muted">REQUEST NUMBER</small>
+
+                        <h5 class="fw-bold page-title mt-1">
+                            {{ req.request_number }}
+                        </h5>
+
+                        <p class="mb-1">
+                            <strong>Citizen:</strong>
+                            {{ req.full_name }}
+                        </p>
+
+                        <p class="mb-1">
+                            <strong>Eligibility:</strong>
+                            {{ req.eligibility_reason.replace('_', ' ') }}
+                        </p>
+
+                        <p class="mb-0">
+                            <strong>Request Date:</strong>
+                            {% if req.requested_at %}
+                                {{ req.requested_at.strftime('%d-%m-%Y %I:%M %p') }}
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div>
+                        {% if req.status == "PENDING" %}
+                            <span class="badge bg-warning text-dark status-badge">
+                                PENDING
+                            </span>
+
+                        {% elif req.status == "APPROVED" %}
+                            <span class="badge bg-success status-badge">
+                                APPROVED
+                            </span>
+
+                        {% elif req.status == "REJECTED" %}
+                            <span class="badge bg-danger status-badge">
+                                REJECTED
+                            </span>
+
+                        {% elif req.status == "OUT_FOR_DELIVERY" %}
+                            <span class="badge bg-primary status-badge">
+                                OUT FOR DELIVERY
+                            </span>
+
+                        {% elif req.status == "DELIVERED" %}
+                            <span class="badge bg-success status-badge">
+                                DELIVERED
+                            </span>
+
+                        {% elif req.status == "CANCELLED" %}
+                            <span class="badge bg-secondary status-badge">
+                                CANCELLED
+                            </span>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <!-- Citizen Notes -->
+                {% if req.request_notes %}
+                    <div class="mt-3">
+                        <strong>Citizen Notes:</strong>
+                        <p class="text-muted mb-0">{{ req.request_notes }}</p>
+                    </div>
+                {% endif %}
+
+                <!-- Evidence -->
+                <div class="mt-3">
+                    <strong>Supporting Evidence:</strong>
+
+                    {% if req.evidence_file %}
+                        <p class="text-muted mb-0">{{ req.evidence_file }}</p>
+                    {% else %}
+                        <p class="text-muted mb-0">No supporting document uploaded.</p>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <!-- Admin Status Controls -->
+                <div class="mt-3">
+                    <h6 class="fw-bold mb-3">
+                        <i class="bi bi-arrow-left-right me-2"></i>
+                        Delivery Management
+                    </h6>
+
+                    {% if req.status == "PENDING" %}
+
+                        <form method="POST"
+                              action="{{ url_for('approve_delivery_request', request_id=req.delivery_request_id) }}"
+                              class="d-inline">
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Approve Request
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                              action="{{ url_for('reject_delivery_request', request_id=req.delivery_request_id) }}"
+                              class="d-inline">
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to reject this request?');">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Reject Request
+                            </button>
+                        </form>
+
+                    {% elif req.status == "APPROVED" %}
+
+                        <div class="alert alert-success py-2">
+                            <i class="bi bi-calendar-check me-2"></i>
+                            Request approved. Estimated delivery is within 1–2 days.
+                        </div>
+
+                        <form method="POST"
+                              action="{{ url_for('update_delivery_status', request_id=req.delivery_request_id) }}">
+
+                            <input type="hidden" name="status" value="OUT_FOR_DELIVERY">
+
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="bi bi-truck me-1"></i>
+                                Mark as Out for Delivery
+                            </button>
+                        </form>
+
+                    {% elif req.status == "OUT_FOR_DELIVERY" %}
+
+                        <div class="alert alert-primary py-2">
+                            <i class="bi bi-truck me-2"></i>
+                            The ration is out for delivery.
+                        </div>
+
+                        <form method="POST"
+                              action="{{ url_for('update_delivery_status', request_id=req.delivery_request_id) }}"
+                              onsubmit="return confirm('Confirm that this ration delivery has been completed?');">
+
+                            <input type="hidden" name="status" value="DELIVERED">
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="bi bi-house-check me-1"></i>
+                                Mark as Delivered
+                            </button>
+                        </form>
+
+                    {% elif req.status == "DELIVERED" %}
+
+                        <div class="alert alert-success mb-0">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>Delivery Completed.</strong>
+
+                            {% if req.delivered_at %}
+                                <div class="mt-1">
+                                    Delivered on:
+                                    {{ req.delivered_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    {% elif req.status == "REJECTED" %}
+
+                        <div class="alert alert-danger mb-0">
+                            <i class="bi bi-x-circle me-2"></i>
+                            This request has been rejected.
+                        </div>
+
+                    {% elif req.status == "CANCELLED" %}
+
+                        <div class="alert alert-secondary mb-0">
+                            This request has been cancelled.
+                        </div>
+
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            No home delivery requests found.
+        </div>
+
+    {% endif %}
+
+    <p class="text-center text-muted small mt-4">
+        AI-Based Smart PDS Intelligence & Decision Support System
+        <br>
+        Academic Project Demonstration
+    </p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

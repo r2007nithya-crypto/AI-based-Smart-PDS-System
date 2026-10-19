@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Government Decision Support | Smart PDS</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        
+:root {
+    --navy: #142b4a;
+    --navy-deep: #10213b;
+    --teal: #087f78;
+    --teal-light: #e5f5f2;
+    --page: #f3f6fb;
+    --text: #263750;
+    --muted: #7e8ba0;
+    --border: #e5ebf3;
+    --white: #ffffff;
+    --shadow: 0 5px 22px rgba(24, 43, 73, 0.045);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--page);
+    font-family: "Inter", "Segoe UI", sans-serif;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.dashboard-container {
+    max-width: 1600px;
+    margin: auto;
+}
+
+/* PAGE HEADER */
+
+.page-header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(115deg, var(--navy), #1c4263 70%, var(--teal));
+    color: white;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 25px;
+    box-shadow: 0 12px 30px rgba(20,43,74,.13);
+}
+
+.page-header::after {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    right: 55px;
+    top: -160px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 28px rgba(255,255,255,.035),
+        0 0 0 56px rgba(255,255,255,.025);
+    pointer-events: none;
+}
+
+.page-header h2 {
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.35;
+    font-weight: 800;
+    letter-spacing: -.7px;
+    margin-bottom: 9px;
+}
+
+.page-header p {
+    max-width: 760px;
+    margin: 0;
+    color: #d7e3ef;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.page-header .bi-diagram-3-fill {
+    color: #a8eee0;
+}
+
+/* METRIC CARDS */
+
+.metric-card {
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    height: 100%;
+    min-height: 155px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(24,43,73,.08);
+}
+
+.metric-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--teal-light);
+    color: var(--teal);
+    font-size: 20px;
+    margin-bottom: 17px;
+}
+
+.metric-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.metric-value {
+    color: var(--navy);
+    font-size: 31px;
+    font-weight: 800;
+    letter-spacing: -.8px;
+    margin-top: 5px;
+    overflow-wrap: anywhere;
+}
+
+/* SHARED SECTIONS */
+
+.section-card,
+.executive-summary,
+.stock-planning-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 24px;
+    margin-top: 25px;
+    box-shadow: var(--shadow);
+}
+
+.section-title {
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -.3px;
+}
+
+.section-title .bi {
+    color: var(--teal);
+    margin-right: 5px;
+}
+
+.text-muted {
+    color: var(--muted) !important;
+}
+
+/* EXECUTIVE SUMMARY */
+
+.executive-summary {
+    background: linear-gradient(145deg, #ffffff, #f8fbff);
+}
+
+.executive-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.executive-title {
+    color: var(--navy);
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.executive-title .bi {
+    color: var(--teal);
+}
+
+.executive-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.ai-status,
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: #edf2ff;
+    color: #4d63b2;
+    padding: 8px 11px;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.ai-status {
+    background: #e5f5f0;
+    color: #087f78;
+}
+
+.summary-item {
+    height: 100%;
+    min-height: 165px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.summary-item:hover {
+    border-color: #b9ddd7;
+    transform: translateY(-2px);
+}
+
+.summary-icon {
+    width: 41px;
+    height: 41px;
+    border-radius: 12px;
+    background: var(--teal-light);
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    margin-bottom: 14px;
+}
+
+.summary-label,
+.stock-label {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+}
+
+.summary-value {
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.summary-text {
+    color: #697991;
+    font-size: 11px;
+    line-height: 1.8;
+    margin-top: 7px;
+}
+
+/* RECOMMENDATIONS */
+
+.recommendation-item {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 18px;
+    margin-bottom: 12px;
+    background: #fff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.recommendation-item:last-child {
+    margin-bottom: 0;
+}
+
+.recommendation-item:hover {
+    border-color: #c5d9e5;
+    box-shadow: 0 5px 16px rgba(24,43,73,.045);
+}
+
+.recommendation-item h6 {
+    color: var(--navy);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.recommendation-item p {
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.priority-high,
+.priority-medium,
+.priority-low {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    padding: 7px 10px;
+    font-size: 9px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.priority-high {
+    background: #fff0ee;
+    color: #b42318;
+}
+
+.priority-medium {
+    background: #fff5df;
+    color: #956200;
+}
+
+.priority-low {
+    background: #e8f7ef;
+    color: #18794e;
+}
+
+/* STOCK PLANNING */
+
+.stock-planning-card {
+    background: linear-gradient(145deg, #fff, #f8fbff);
+}
+
+.stock-alert,
+.stock-normal {
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.stock-alert {
+    background: #fff8f5;
+    border: 1px solid #f5dfd5;
+    border-left: 4px solid #dc6b45;
+}
+
+.stock-normal {
+    background: #effaf5;
+    border: 1px solid #d4ecdf;
+    border-left: 4px solid #23976a;
+}
+
+.stock-number {
+    color: var(--navy);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -.4px;
+    overflow-wrap: anywhere;
+    margin-bottom: 4px;
+}
+
+.stock-gap {
+    color: #596a80;
+    font-size: 11px;
+    line-height: 1.9;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(80,100,120,.12);
+    overflow-wrap: anywhere;
+}
+
+.stock-gap strong {
+    color: var(--navy);
+}
+
+/* ANOMALY MONITORING */
+
+.alert-item {
+    border: 1px solid #f3e5c6;
+    border-left: 4px solid #d9a13b;
+    background: #fffaf0;
+    padding: 17px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.alert-item:last-child {
+    margin-bottom: 0;
+}
+
+.alert-item strong {
+    color: var(--navy);
+    font-size: 12px;
+}
+
+.alert-item .small {
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* TABLES */
+
+.table-responsive {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.table {
+    margin-bottom: 0;
+    color: var(--text);
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+.table > :not(caption) > * > * {
+    padding: 14px 15px;
+    border-bottom-color: #edf0f5;
+}
+
+.table thead th {
+    background: #f5f8fc;
+    color: #61718a;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .55px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.table tbody tr:hover > * {
+    background: #f8fbff;
+}
+
+.table td strong {
+    color: var(--navy);
+}
+
+.table small {
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* SHOP FILTER */
+
+.form-label {
+    color: var(--navy);
+    font-size: 11px;
+}
+
+.form-select {
+    min-height: 43px;
+    border: 1px solid #dfe6ef;
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 12px;
+    box-shadow: none;
+}
+
+.form-select:focus {
+    border-color: #78bcb1;
+    box-shadow: 0 0 0 3px rgba(8,127,120,.1);
+}
+
+/* CHARTS AND EMPTY STATES */
+
+.chart-box {
+    position: relative;
+    height: 320px;
+    width: 100%;
+}
+
+.section-card > .text-center,
+.section-card .text-center {
+    line-height: 1.8;
+}
+
+.section-card .text-center .bi {
+    color: #91a1b7;
+}
+
+.decision-note {
+    background: #edf7f5;
+    border: 1px solid #d5eae5;
+    border-left: 4px solid var(--teal);
+    padding: 19px;
+    border-radius: 13px;
+    margin-top: 25px;
+    color: #526a7b;
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+.decision-note strong {
+    color: var(--navy);
+    font-size: 12px;
+}
+
+.decision-note > div > .bi {
+    color: var(--teal);
+    flex-shrink: 0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+    .page-header {
+        padding: 23px 20px;
+        border-radius: 15px;
+    }
+
+    .page-header .fs-1 {
+        font-size: 30px !important;
+    }
+
+    .metric-card {
+        padding: 17px;
+        min-height: 145px;
+    }
+
+    .metric-value {
+        font-size: 26px;
+    }
+
+    .section-card,
+    .executive-summary,
+    .stock-planning-card {
+        padding: 17px;
+        border-radius: 14px;
+    }
+
+    .executive-header {
+        align-items: flex-start;
+    }
+
+    .ai-status {
+        font-size: 9px;
+        padding: 7px 8px;
+    }
+
+    .summary-item {
+        padding: 15px;
+    }
+
+    .chart-box {
+        height: 270px;
+    }
+
+    .recommendation-item {
+        padding: 14px;
+    }
+
+    .recommendation-item > .d-flex {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-fluid.py-4 {
+        padding: 14px !important;
+    }
+
+    .page-header h2 {
+        font-size: 21px;
+    }
+
+    .page-header p {
+        font-size: 11px;
+    }
+
+    .executive-header {
+        flex-direction: column;
+    }
+
+    .stock-alert,
+    .stock-normal {
+        padding: 15px;
+    }
+
+    .stock-number {
+        font-size: 20px;
+    }
+
+    .decision-note {
+        padding: 14px;
+    }
+}
+
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container-fluid py-4 px-4">
+
+    <div class="dashboard-container">
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <i class="bi bi-diagram-3-fill fs-1"></i>
+
+                <div>
+
+                    <h2>
+                        Government Decision Support Dashboard
+                    </h2>
+
+                    <p>
+                        AI-powered intelligence for monitoring PDS operations
+                        and supporting administrative decision-making.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- KEY METRICS -->
+
+        <div class="row g-4">
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="metric-card">
+
+                    <div class="metric-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <div class="metric-label">
+                        AI Demand Predictions
+                    </div>
+
+                    <div class="metric-value">
+                        {{ predictions|length }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="metric-card">
+
+                    <div class="metric-icon">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+
+                    <div class="metric-label">
+                        Unusual Patterns
+                    </div>
+
+                    <div class="metric-value">
+                        {{ anomalies|length }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="metric-card">
+
+                    <div class="metric-icon">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
+
+                    <div class="metric-label">
+                        AI Recommendations
+                    </div>
+
+                    <div class="metric-value">
+                        {{ recommendations|length }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-xl-3 col-md-6">
+
+                <div class="metric-card">
+
+                    <div class="metric-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+
+                    <div class="metric-label">
+                        Shops Evaluated
+                    </div>
+
+                    <div class="metric-value">
+                        {{ shop_scores|length }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+  
+<!-- AI EXECUTIVE SUMMARY -->
+
+<div class="executive-summary">
+
+    <div class="executive-header">
+
+        <div>
+
+            <div class="executive-title">
+                <i class="bi bi-stars me-1"></i>
+                AI Executive Summary
+            </div>
+
+            <div class="executive-subtitle">
+                Automated overview of the latest PDS intelligence
+            </div>
+
+        </div>
+
+        <span class="ai-status">
+            <i class="bi bi-cpu me-1"></i>
+            AI ANALYSIS READY
+        </span>
+
+    </div>
+
+
+    <div class="row g-3">
+
+
+        <!-- DEMAND -->
+
+        <div class="col-xl-4 col-md-6">
+
+            <div class="summary-item">
+
+                <div class="summary-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+                <div class="summary-label">
+                    DEMAND OUTLOOK
+                </div>
+
+                <div class="summary-value">
+                    {{ predictions|length }} Predictions Available
+                </div>
+
+                <div class="summary-text">
+                    AI demand forecasts are available
+                    for stock planning and replenishment review.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STOCK -->
+
+        <div class="col-xl-4 col-md-6">
+
+            <div class="summary-item">
+
+                <div class="summary-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <div class="summary-label">
+                    STOCK ATTENTION
+                </div>
+
+                <div class="summary-value">
+                    Replenishment Review
+                </div>
+
+                <div class="summary-text">
+                    Current stock levels should be compared
+                    with predicted demand before replenishment decisions.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COMPLAINTS -->
+
+        <div class="col-xl-4 col-md-6">
+
+            <div class="summary-item">
+
+                <div class="summary-icon">
+                    <i class="bi bi-chat-left-text"></i>
+                </div>
+
+                <div class="summary-label">
+                    COMPLAINT INTELLIGENCE
+                </div>
+
+                <div class="summary-value">
+                    {{ complaint_trends|length }} Periods Analysed
+                </div>
+
+                <div class="summary-text">
+                    Complaint activity is available
+                    for monthly administrative monitoring.
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <!-- BENEFICIARY -->
+
+        <div class="col-xl-4 col-md-6">
+
+            <div class="summary-item">
+
+                <div class="summary-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <div class="summary-label">
+                    BENEFICIARY INTELLIGENCE
+                </div>
+
+                <div class="summary-value">
+                    Consumption Data Available
+                </div>
+
+                <div class="summary-text">
+                    Beneficiary-level consumption patterns
+                    can support demand and allocation planning.
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <!-- AI RECOMMENDATIONS -->
+
+        <div class="section-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+
+                    <h5 class="section-title mb-1">
+                        <i class="bi bi-lightbulb-fill"></i>
+                        AI Recommendations
+                    </h5>
+
+                    <small class="text-muted">
+                        Suggested areas for administrative review
+                    </small>
+
+                </div>
+
+                <span class="status-badge">
+                    AI Decision Support
+                </span>
+
+            </div>
+
+
+            {% if recommendations %}
+
+                {% for recommendation in recommendations %}
+
+                <div class="recommendation-item">
+
+                    <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                {{ recommendation.title }}
+                            </h6>
+
+                            <p class="mb-2 text-muted">
+                                {{ recommendation.recommendation_text }}
+                            </p>
+
+                            <small class="text-muted">
+
+                                Recommendation Type:
+                                {{ recommendation.recommendation_type }}
+
+                            </small>
+
+                        </div>
+
+
+                        {% if recommendation.priority == "HIGH" %}
+
+                            <span class="priority-high">
+                                HIGH
+                            </span>
+
+                        {% elif recommendation.priority == "MEDIUM" %}
+
+                            <span class="priority-medium">
+                                MEDIUM
+                            </span>
+
+                        {% else %}
+
+                            <span class="priority-low">
+                                LOW
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="text-center py-4 text-muted">
+
+                    <i class="bi bi-lightbulb fs-2"></i>
+
+                    <p class="mt-2 mb-0">
+                        No AI recommendations available.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+```html
+<!-- STOCK PLANNING INTELLIGENCE -->
+
+<div class="stock-planning-card">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <h5 class="section-title mb-1">
+                <i class="bi bi-boxes"></i>
+                Stock Planning Intelligence
+            </h5>
+
+            <small class="text-muted">
+                AI comparison of current stock against predicted demand
+            </small>
+
+        </div>
+
+        <span class="status-badge">
+            AI STOCK ANALYSIS
+        </span>
+
+    </div>
+
+
+    {% set rice_prediction = namespace(found=false, value=0, shop="", shop_name="") %}
+
+    {% for prediction in predictions %}
+
+        {% if prediction.commodity_name|lower == "rice" %}
+
+            {% set rice_prediction.found = true %}
+            {% set rice_prediction.value = prediction.predicted_quantity_kg %}
+            {% set rice_prediction.shop = prediction.shop_code %}
+            {% set rice_prediction.shop_name = prediction.shop_name %}
+
+        {% endif %}
+
+    {% endfor %}
+
+
+    {% if rice_prediction.found %}
+
+        {% set current_stock = 150 %}
+        {% set predicted_demand = rice_prediction.value %}
+        {% set stock_gap = predicted_demand - current_stock %}
+
+
+        {% if stock_gap > 0 %}
+
+            <div class="stock-alert">
+
+                <div class="row align-items-center g-4">
+
+                    <div class="col-xl-3 col-md-6">
+
+                        <div class="stock-label">
+                            Fair Price Shop
+                        </div>
+
+                        <div class="stock-number">
+                            {{ rice_prediction.shop }}
+                        </div>
+
+                        <div class="text-muted">
+                            {{ rice_prediction.shop_name }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-xl-2 col-md-6">
+
+                        <div class="stock-label">
+                            Commodity
+                        </div>
+
+                        <div class="stock-number">
+                            Rice
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-xl-2 col-md-6">
+
+                        <div class="stock-label">
+                            Current Stock
+                        </div>
+
+                        <div class="stock-number">
+                            {{ "%.2f"|format(current_stock) }} KG
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-xl-2 col-md-6">
+
+                        <div class="stock-label">
+                            Predicted Demand
+                        </div>
+
+                        <div class="stock-number">
+                            {{ "%.2f"|format(predicted_demand) }} KG
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-xl-3 col-md-12">
+
+                        <span class="priority-high">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                            REPLENISHMENT REVIEW
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stock-gap">
+
+                    <i class="bi bi-arrow-up-right-circle-fill me-1"></i>
+
+                    AI predicts a demand of
+
+                    <strong>
+                        {{ "%.2f"|format(predicted_demand) }} KG
+                    </strong>
+
+                    against current stock of
+
+                    <strong>
+                        {{ "%.2f"|format(current_stock) }} KG
+                    </strong>.
+
+                    This indicates a potential stock gap of
+
+                    <strong>
+                        {{ "%.2f"|format(stock_gap) }} KG
+                    </strong>.
+
+                    Administrative review of replenishment requirements
+                    is recommended.
+
+                </div>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="stock-normal">
+
+                <strong>
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    Current stock is above the predicted demand.
+                </strong>
+
+            </div>
+
+        {% endif %}
+
+
+    {% else %}
+
+        <div class="text-center py-4 text-muted">
+
+            <i class="bi bi-box-seam fs-2"></i>
+
+            <p class="mt-2 mb-0">
+                Rice demand prediction is not available.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+```
+
+
+        <!-- ANOMALY MONITORING -->
+
+        <div class="section-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+
+                    <h5 class="section-title mb-1">
+                        <i class="bi bi-shield-exclamation"></i>
+                        Unusual Pattern Monitoring
+                    </h5>
+
+                    <small class="text-muted">
+                        AI-detected records requiring administrative review
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            {% if anomalies %}
+
+                {% for anomaly in anomalies %}
+
+                <div class="alert-item">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <strong>
+                                {{ anomaly.anomaly_type }}
+                            </strong>
+
+                            <div class="small text-muted mt-1">
+
+                                Shop ID:
+                                {{ anomaly.shop_id }}
+
+                                &nbsp; | &nbsp;
+
+                                Transaction:
+                                {{ anomaly.transaction_id }}
+
+                            </div>
+
+                            <div class="small mt-1">
+                                {{ anomaly.description }}
+                            </div>
+
+                        </div>
+
+                        <span class="status-badge">
+                            {{ anomaly.review_status }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="text-center py-4 text-muted">
+
+                    <i class="bi bi-check-circle fs-2"></i>
+
+                    <p class="mt-2 mb-0">
+                        No unusual patterns currently recorded.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- DEMAND INSIGHTS -->
+
+        <div class="section-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+
+                    <h5 class="section-title mb-1">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        Stock Demand Intelligence
+                    </h5>
+
+                    <small class="text-muted">
+                        Latest AI demand predictions for stock planning
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Shop</th>
+                            <th>Commodity</th>
+                            <th>Prediction Month</th>
+                            <th>Predicted Demand</th>
+                            <th>Confidence</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for prediction in predictions %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ prediction.shop_code }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ prediction.shop_name }}
+                                </small>
+                            </td>
+
+                            <td>
+                                {{ prediction.commodity_name }}
+                            </td>
+
+                            <td>
+                                {{ prediction.prediction_month }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ prediction.predicted_quantity_kg }}
+                                </strong>
+                                KG
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge">
+                                    {{ prediction.confidence_score }}%
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        z
+<!-- COMPLAINT TREND ANALYSIS -->
+
+<div class="section-card">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <h5 class="section-title mb-1">
+                <i class="bi bi-bar-chart-line-fill"></i>
+                Complaint Trend Analysis
+            </h5>
+
+            <small class="text-muted">
+                Monthly complaint activity for administrative monitoring
+            </small>
+
+        </div>
+
+        <span class="status-badge">
+            AI Analytics
+        </span>
+
+    </div>
+
+
+    {% if complaint_trends %}
+
+        <div class="chart-box">
+            <canvas id="complaintTrendChart"></canvas>
+        </div>
+
+    {% else %}
+
+        <div class="text-center py-4 text-muted">
+
+            <i class="bi bi-bar-chart fs-2"></i>
+
+            <p class="mt-2 mb-0">
+                No complaint trend data available.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<script>
+
+    const complaintTrendData = {{ complaint_trends | tojson }};
+
+    if (complaintTrendData.length > 0) {
+
+        const labels = complaintTrendData.map(
+            item => item.month
+        );
+
+        const values = complaintTrendData.map(
+            item => item.complaint_count
+        );
+
+        new Chart(
+            document.getElementById("complaintTrendChart"),
+            {
+                type: "line",
+
+                data: {
+                    labels: labels,
+
+                    datasets: [
+                        {
+                            label: "Complaints",
+                            data: values,
+                            tension: 0.35,
+                            fill: true
+                        }
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            display: true
+                        }
+                    },
+
+                    scales: {
+
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+<!-- BENEFICIARY CONSUMPTION & DEMAND ANALYSIS -->
+
+<div class="section-card mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <h5 class="section-title mb-1">
+                <i class="bi bi-person-lines-fill"></i>
+                Beneficiary Consumption & Demand Analysis
+            </h5>
+
+            <small class="text-muted">
+                AI analysis of beneficiary-wise commodity consumption
+            </small>
+
+        </div>
+
+        <span class="status-badge">
+            AI Analytics
+        </span>
+
+    </div>
+
+
+    <!-- FAIR PRICE SHOP SELECTION -->
+
+    <form method="GET"
+          action="{{ url_for('admin_decision_support') }}"
+          class="mb-4">
+
+        <div class="row align-items-end">
+
+            <div class="col-md-5">
+
+                <label class="form-label fw-semibold">
+                    Select Fair Price Shop
+                </label>
+
+                <select name="shop_id"
+                        class="form-select"
+                        onchange="this.form.submit()">
+
+                    <option value="">
+                        All Shops
+                    </option>
+
+                    {% for shop in shops %}
+
+                        <option value="{{ shop.shop_id }}"
+                            {% if selected_shop_id == shop.shop_id %}
+                                selected
+                            {% endif %}>
+
+                            {{ shop.shop_code }} - {{ shop.shop_name }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    {% if beneficiary_consumption %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Ration Card</th>
+
+                        <th>Commodity</th>
+
+                        <th>Transactions</th>
+
+                        <th>Total Consumption</th>
+
+                        <th>Average Consumption</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in beneficiary_consumption %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ item.ration_card_id }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ item.commodity_name }}
+                        </td>
+
+                        <td>
+                            {{ item.transaction_count }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ "%.2f"|format(item.total_consumption_kg) }}
+                            </strong>
+                            KG
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(item.average_consumption_kg) }}
+                            KG
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="text-center py-4 text-muted">
+
+            <i class="bi bi-bar-chart fs-2"></i>
+
+            <p class="mt-2 mb-0">
+                No beneficiary consumption data available.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+<!-- FAIR PRICE SHOP PERFORMANCE -->
+
+<div class="section-card mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <h5 class="section-title mb-1">
+                <i class="bi bi-shop-window"></i>
+                Fair Price Shop Performance
+            </h5>
+
+            <small class="text-muted">
+                AI-generated performance indicators
+            </small>
+
+        </div>
+
+        <span class="status-badge">
+            AI Analytics
+        </span>
+
+    </div>
+
+
+    {% if shop_scores %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>Shop ID</th>
+                        <th>Evaluation Month</th>
+                        <th>Rating</th>
+                        <th>Stock</th>
+                        <th>Complaint</th>
+                        <th>Service</th>
+                        <th>Overall Score</th>
+                        <th>Level</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for score in shop_scores %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ score.shop_id }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ score.evaluation_month }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(score.rating_score) }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(score.stock_score) }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(score.complaint_score) }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(score.service_score) }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ "%.2f"|format(score.overall_score) }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            <span class="status-badge">
+                                {{ score.performance_level }}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="text-center py-4 text-muted">
+
+            <i class="bi bi-shop fs-2"></i>
+
+            <p class="mt-2 mb-0">
+                No shop performance data available.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+ <!-- DECISION NOTE -->
+
+        <div class="decision-note">
+
+            <div class="d-flex gap-3">
+
+                <i class="bi bi-info-circle fs-4"></i>
+
+                <div>
+
+                    <strong>
+                        Decision Support Notice
+                    </strong>
+
+                    <p class="mb-0 mt-1">
+
+                        AI results shown on this dashboard are intended
+                        to support administrative review and planning.
+                        Unusual patterns are indicators for investigation
+                        and should not automatically be treated as fraud
+                        or misconduct.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const predictionData = {{ predictions | tojson }};
+
+</script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

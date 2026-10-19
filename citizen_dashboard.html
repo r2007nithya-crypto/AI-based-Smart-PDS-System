@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Citizen Dashboard | Smart PDS</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- Google Fonts -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- Existing CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+
+    <!-- =================================================
+         CITIZEN DASHBOARD ONLY CSS
+    ================================================== -->
+
+    <style>
+
+        body {
+
+            background: #f5f8fc;
+
+            font-family:
+                "Inter",
+                "Noto Sans Tamil",
+                sans-serif;
+
+            color: #172033;
+
+        }
+
+
+        /* ================= TOP BAR ================= */
+
+        .citizen-topbar {
+
+            background: #123b6d;
+
+            color: white;
+
+            padding: 7px 0;
+
+            font-size: 11px;
+
+        }
+
+
+        .citizen-navbar {
+
+            background: white;
+
+            border-bottom: 1px solid #e3e8ef;
+
+            box-shadow: 0 3px 15px rgba(18,59,109,0.06);
+
+            padding: 13px 0;
+
+        }
+
+
+        .brand-area {
+
+            display: flex;
+
+            align-items: center;
+
+            text-decoration: none;
+
+        }
+
+
+        .brand-area img {
+
+            width: 47px;
+
+            height: 47px;
+
+            object-fit: contain;
+
+            margin-right: 12px;
+
+        }
+
+
+        .brand-title {
+
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1.15;
+
+        }
+
+
+        .brand-title strong {
+
+            color: #123b6d;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+        }
+
+
+        .brand-title span {
+
+            color: #7b8794;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+
+        }
+
+
+        /* ================= NAV ACTIONS ================= */
+
+        .nav-action {
+
+            width: 39px;
+
+            height: 39px;
+
+            border: 1px solid #e1e7ee;
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: #123b6d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        .profile-button {
+
+            border: 1px solid #e1e7ee;
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 8px 12px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .citizen-main {
+
+            max-width: 1400px;
+
+            margin: auto;
+
+            padding: 38px 25px 60px;
+
+        }
+ 
+
+        /* ================= WELCOME ================= */
+
+        .welcome-box {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #123b6d,
+                    #1b5a8d
+                );
+
+            border-radius: 20px;
+
+            padding: 32px 35px;
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 14px 35px rgba(18,59,109,0.16);
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .welcome-box::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+
+            height: 280px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            right: -80px;
+
+            top: -100px;
+
+        }
+
+
+        .welcome-label {
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            color: #dbe9f5;
+
+        }
+
+
+        .welcome-box h1 {
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            margin: 8px 0;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .welcome-box p {
+
+            color: #d9e6f1;
+
+            font-size: 13px;
+
+            margin: 0;
+
+            max-width: 650px;
+
+            line-height: 1.7;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .service-period {
+
+            position: absolute;
+
+            right: 32px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.18);
+
+            border-radius: 12px;
+
+            padding: 14px 18px;
+
+            min-width: 175px;
+
+            z-index: 3;
+
+        }
+
+
+        .service-period small {
+
+            display: block;
+
+            color: #d8e5f0;
+
+            font-size: 10px;
+
+        }
+
+
+        .service-period strong {
+
+            display: block;
+
+            font-size: 14px;
+
+            margin-top: 5px;
+
+        }
+
+
+        /* ================= SECTION TITLE ================= */
+
+        .section-title {
+
+            display: flex;
+
+            align-items: end;
+
+            justify-content: space-between;
+
+            margin: 35px 0 17px;
+
+        }
+
+
+        .section-title small {
+
+            color: #b18724;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.3px;
+
+        }
+
+
+        .section-title h2 {
+
+            margin: 4px 0 0;
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            color: #172033;
+
+        }
+
+
+        .section-title span {
+
+            font-size: 11px;
+
+            color: #7b8794;
+
+        }
+
+
+        /* ================= STATUS CARDS ================= */
+
+        .status-card {
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 15px;
+
+            padding: 19px;
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            box-shadow:
+                0 5px 18px rgba(18,59,109,0.05);
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .status-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 28px rgba(18,59,109,0.09);
+
+        }
+
+
+        .status-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            min-width: 48px;
+
+            border-radius: 12px;
+
+            background: #edf4fa;
+
+            color: #123b6d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+        }
+
+
+        .status-card small {
+
+            color: #7b8794;
+
+            font-size: 10px;
+
+        }
+
+
+        .status-card strong {
+
+            display: block;
+
+            font-size: 14px;
+
+            margin-top: 3px;
+
+        }
+
+
+        .status-card span {
+
+            display: block;
+
+            color: #25875b;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin-top: 4px;
+
+        }
+
+
+        /* ================= SERVICES ================= */
+
+        .service-card {
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            padding: 21px;
+
+            height: 100%;
+
+            transition: 0.25s ease;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .service-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 13px 30px rgba(18,59,109,0.10);
+
+            border-color: #ccd9e6;
+
+        }
+
+
+        .service-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            height: 3px;
+
+            bottom: 0;
+
+            left: 0;
+
+            right: 0;
+
+            background: #c79a27;
+
+            transform: scaleX(0);
+
+            transform-origin: left;
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .service-card:hover::after {
+
+            transform: scaleX(1);
+
+        }
+
+
+        .service-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 11px;
+
+            background: #edf4fa;
+
+            color: #123b6d;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .service-card h3 {
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .service-card p {
+
+            color: #7b8794;
+
+            font-size: 11px;
+
+            line-height: 1.65;
+
+            min-height: 52px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .service-link {
+
+            color: #123b6d;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+        }
+
+
+        .service-link i {
+
+            margin-left: 4px;
+
+        }
+
+
+        /* ================= AI CARD ================= */
+
+        .ai-card {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #102f54,
+                    #1b5a8d
+                );
+
+            color: white;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            margin-top: 32px;
+
+            box-shadow:
+                0 14px 35px rgba(18,59,109,0.17);
+
+        }
+
+
+        .ai-icon {
+
+            width: 53px;
+
+            height: 53px;
+
+            min-width: 53px;
+
+            border-radius: 14px;
+
+            background: rgba(255,255,255,0.12);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+
+        }
+
+
+        .ai-card small {
+
+            color: #d9e7f2;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.3px;
+
+        }
+
+
+        .ai-card h3 {
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            margin: 4px 0;
+
+        }
+
+
+        .ai-card p {
+
+            color: #d6e3ed;
+
+            font-size: 11px;
+
+            margin: 0;
+
+        }
+
+
+        .ai-button {
+
+            margin-left: auto;
+
+            border: 0;
+
+            background: white;
+
+            color: #123b6d;
+
+            border-radius: 9px;
+
+            padding: 10px 17px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .citizen-footer {
+
+            background: white;
+
+            border-top: 1px solid #e2e8f0;
+
+            text-align: center;
+
+            padding: 18px;
+
+            color: #7b8794;
+
+            font-size: 10px;
+
+        }
+
+
+        .citizen-footer strong {
+
+            color: #123b6d;
+
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 991px) {
+
+            .service-period {
+
+                position: static;
+
+                transform: none;
+
+                margin-top: 20px;
+
+                display: inline-block;
+
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .citizen-main {
+
+                padding: 25px 15px 45px;
+
+            }
+
+
+            .welcome-box {
+
+                padding: 25px 22px;
+
+            }
+
+
+            .welcome-box h1 {
+
+                font-size: 24px;
+
+            }
+
+
+            .ai-card {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .ai-button {
+
+                margin-left: 0;
+
+                width: 100%;
+
+            }
+
+        }
+
+/* ==========================================
+   SMART PDS — CITIZEN DASHBOARD VISUAL POLISH
+   Appearance only; preserve existing behavior
+========================================== */
+
+:root {
+    --pds-primary: #123b6d;
+    --pds-secondary: #1b5a8d;
+    --pds-teal: #16847d;
+    --pds-gold: #c79a27;
+    --pds-text: #172033;
+    --pds-muted: #718096;
+    --pds-border: #e4eaf2;
+    --pds-surface: #ffffff;
+}
+
+/* Page background and typography */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    background:
+        radial-gradient(
+            ellipse at 0% 0%,
+            rgba(33, 107, 155, 0.075),
+            transparent 34%
+        ),
+        linear-gradient(180deg, #f7f9fd 0%, #eef3f9 100%);
+    color: var(--pds-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Government notice strip */
+.citizen-topbar {
+    background: linear-gradient(90deg, #102f54, #194a77);
+    padding: 9px 0;
+    letter-spacing: 0.25px;
+}
+
+/* Navigation */
+.citizen-navbar {
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid rgba(221, 230, 240, 0.9);
+    box-shadow: 0 5px 22px rgba(18, 59, 109, 0.055);
+}
+
+.brand-area img {
+    transition: transform 0.2s ease;
+}
+
+.brand-area:hover img {
+    transform: scale(1.04);
+}
+
+.brand-title strong {
+    letter-spacing: 0.5px;
+}
+
+.nav-action,
+.profile-button {
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.nav-action:hover,
+.profile-button:hover {
+    background: #eff5fb;
+    border-color: #c9d9e9;
+    box-shadow: 0 3px 9px rgba(18, 59, 109, 0.07);
+}
+
+/* Main content spacing */
+.citizen-main {
+    padding-top: 34px;
+    padding-bottom: 65px;
+}
+
+/* Welcome banner */
+.welcome-box {
+    background:
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(255, 255, 255, 0.13),
+            transparent 27%
+        ),
+        linear-gradient(125deg, #102f54 0%, #174c7b 65%, #217b88 125%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 38px rgba(18, 59, 109, 0.16);
+}
+
+.welcome-box::after {
+    width: 310px;
+    height: 310px;
+    border-width: 1px;
+}
+
+.welcome-label {
+    color: #e4edf7;
+}
+
+.welcome-box h1 {
+    letter-spacing: -0.7px;
+}
+
+.service-period {
+    background: rgba(255, 255, 255, 0.11);
+    backdrop-filter: blur(8px);
+}
+
+/* Section headings */
+.section-title {
+    margin-top: 38px;
+}
+
+.section-title small {
+    color: #a77d18;
+}
+
+.section-title h2 {
+    letter-spacing: -0.45px;
+}
+
+.section-title span {
+    line-height: 1.6;
+}
+
+/* Overview cards */
+.status-card {
+    border: 1px solid var(--pds-border);
+    background: linear-gradient(145deg, #ffffff, #fbfdff);
+    box-shadow: 0 5px 20px rgba(18, 59, 109, 0.045);
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.status-card:hover {
+    transform: translateY(-3px);
+    border-color: #cfdeec;
+    box-shadow: 0 12px 26px rgba(18, 59, 109, 0.09);
+}
+
+.status-icon,
+.service-icon {
+    background: linear-gradient(145deg, #edf5fc, #e3f0f5);
+    color: var(--pds-primary);
+}
+
+.status-icon {
+    box-shadow: inset 0 0 0 1px rgba(18, 59, 109, 0.025);
+}
+
+/* Citizen service cards */
+.service-card {
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid var(--pds-border);
+    box-shadow: 0 5px 20px rgba(18, 59, 109, 0.04);
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    border-color: #c9d9e8;
+    box-shadow: 0 15px 30px rgba(18, 59, 109, 0.09);
+}
+
+.service-icon {
+    border: 1px solid rgba(18, 59, 109, 0.035);
+    transition:
+        background 0.22s ease,
+        color 0.22s ease,
+        transform 0.22s ease;
+}
+
+.service-card:hover .service-icon {
+    background: var(--pds-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.service-card h3 {
+    color: #172b45;
+    letter-spacing: -0.15px;
+}
+
+.service-card p {
+    color: var(--pds-muted);
+}
+
+.service-link {
+    color: var(--pds-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.service-link:hover {
+    color: var(--pds-teal);
+}
+
+.service-link i {
+    transition: transform 0.2s ease;
+}
+
+.service-link:hover i {
+    transform: translateX(3px);
+}
+
+/* Notification panel */
+#notifications {
+    scroll-margin-top: 100px;
+}
+
+#notifications.service-card {
+    border-radius: 17px;
+}
+
+#notifications .border.rounded {
+    background: #fbfdff;
+    border-color: var(--pds-border) !important;
+    border-radius: 12px !important;
+    transition: background 0.2s ease;
+}
+
+#notifications .border.rounded:hover {
+    background: #f1f7fc;
+}
+
+/* AI assistant banner */
+.ai-card {
+    background:
+        radial-gradient(
+            circle at 92% 0%,
+            rgba(40, 170, 160, 0.22),
+            transparent 30%
+        ),
+        linear-gradient(120deg, #102f54, #1b5a8d);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 34px rgba(18, 59, 109, 0.16);
+}
+
+.ai-icon {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ai-button {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ai-button:hover {
+    background: #edf8f7;
+    box-shadow: 0 7px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Footer */
+.citizen-footer {
+    background: rgba(255, 255, 255, 0.96);
+    border-top-color: var(--pds-border);
+    line-height: 1.9;
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+    .citizen-main {
+        padding: 24px 16px 45px;
+    }
+
+    .welcome-box {
+        padding: 25px 22px;
+        border-radius: 17px;
+    }
+
+    .welcome-box h1 {
+        font-size: 25px;
+        overflow-wrap: anywhere;
+    }
+
+    .section-title {
+        margin-top: 29px;
+    }
+
+    .status-card {
+        padding: 16px;
+    }
+
+    .service-card {
+        padding: 19px;
+    }
+}
+
+@media (max-width: 576px) {
+    .citizen-main {
+        padding-right: 13px;
+        padding-left: 13px;
+    }
+
+    .brand-area img {
+        width: 38px;
+        height: 38px;
+        margin-right: 7px;
+    }
+
+    .brand-title strong {
+        font-size: 14px;
+    }
+
+    .brand-title span {
+        font-size: 9px;
+    }
+
+    .profile-button {
+        max-width: 135px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .welcome-box h1 {
+        font-size: 23px;
+    }
+
+    .service-period {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .ai-card {
+        gap: 14px;
+        padding: 21px;
+    }
+
+    .ai-button {
+        max-width: 100%;
+        white-space: normal;
+    }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .status-card,
+    .service-card,
+    .service-icon,
+    .nav-action,
+    .profile-button,
+    .ai-button,
+    .service-link i {
+        transition: none;
+    }
+
+    .status-card:hover,
+    .service-card:hover,
+    .service-card:hover .service-icon,
+    .service-link:hover i,
+    .ai-button:hover {
+        transform: none;
+    }
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TOP NOTICE
+===================================================== -->
+
+<div class="citizen-topbar">
+
+    <div class="container text-center">
+
+        <i class="bi bi-info-circle-fill me-1"></i>
+
+        Academic Project • Not an Official Government Website
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="citizen-navbar">
+
+    <div class="container-fluid px-4">
+
+        <div class="d-flex align-items-center justify-content-between">
+
+
+            <!-- BRAND -->
+
+            <a href="/citizen-dashboard" class="brand-area">
+
+                <img
+                    src="{{ url_for('static', filename='images/tn-emblem.png') }}"
+                    alt="Tamil Nadu Government Emblem"
+                >
+
+                <div class="brand-title">
+
+                    <strong>SMART PDS</strong>
+
+                    <span>Citizen Services Portal</span>
+
+                </div>
+
+            </a>
+
+
+            <!-- ACTIONS -->
+
+            <div class="d-flex align-items-center gap-2">
+
+
+                <button class="nav-action">
+
+                    <i class="bi bi-translate"></i>
+
+                </button>
+
+
+                <button class="nav-action position-relative">
+
+                    <a href="#notifications" class="text-decoration-none text-dark">
+    <i class="bi bi-bell"></i>
+</a>
+
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                    </span>
+
+                </button>
+
+
+                <div class="dropdown">
+
+                    <button
+                        class="profile-button dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                    >
+
+                        <i class="bi bi-person-circle me-1"></i>
+
+                        {{ name }}
+
+                    </button>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-person me-2"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-gear me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger" href="/logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="citizen-main">
+<!-- NOTIFICATIONS -->
+
+<div class="service-card mb-4" id="notifications">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <div class="service-icon me-3">
+            <i class="bi bi-bell"></i>
+        </div>
+
+        <div>
+            <h3 class="mb-1">Recent Notifications</h3>
+
+            <p class="mb-0">
+                Updates about your PDS services and complaints.
+            </p>
+        </div>
+
+    </div>
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+            <div class="border rounded p-3 mb-2">
+
+                <div class="d-flex justify-content-between">
+
+                    <strong>
+                        {{ notification.title }}
+                    </strong>
+
+                    {% if notification.is_read == 0 %}
+                        <span class="badge bg-success">
+                            NEW
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="mt-1">
+                    {{ notification.message }}
+                </div>
+
+                <form
+    action="{{ url_for('delete_notification', notification_id=notification.notification_id) }}"
+    method="POST"
+    class="mt-2"
+>
+    <button type="submit" class="btn btn-sm btn-outline-danger">
+        <i class="bi bi-trash"></i>
+        Delete
+    </button>
+</form>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p class="text-muted mb-0">
+            No new notifications.
+        </p>
+
+    {% endif %}
+
+</div>
+
+    <!-- ================= WELCOME ================= -->
+
+    <section class="welcome-box">
+
+        <div class="welcome-label">
+
+            CITIZEN PORTAL
+
+        </div>
+
+
+        <h1>
+
+            Welcome, {{ name }} 👋
+
+        </h1>
+
+
+        <p>
+
+            Manage your ration services, entitlement, collection,
+            complaints and citizen support from one secure platform.
+
+        </p>
+
+
+        <div class="service-period">
+
+            <small>
+
+                CURRENT SERVICE PERIOD
+
+            </small>
+
+            <strong>
+
+                August 2026
+
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= STATUS ================= -->
+
+    <div class="section-title">
+
+        <div>
+
+            <small>YOUR PDS STATUS</small>
+
+            <h2>Service Overview</h2>
+
+        </div>
+
+        <span>Updated recently</span>
+
+    </div>
+
+
+    <div class="row g-3">
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="status-card">
+
+                <div class="status-icon">
+
+                    <i class="bi bi-basket2"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Monthly Entitlement</small>
+
+                    <strong>Available</strong>
+
+                    <span>
+                        <i class="bi bi-check-circle"></i>
+                        Ready for collection
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="status-card">
+
+                <div class="status-icon">
+
+                    <i class="bi bi-ticket-perforated"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Ration Token</small>
+
+                    <strong>Not Booked</strong>
+
+                    <span>
+                        Book a collection slot
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="status-card">
+
+                <div class="status-icon">
+
+                    <i class="bi bi-box-seam"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Shop Stock</small>
+
+                    <strong>Available</strong>
+
+                    <span>
+                        Stock information available
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-6 col-xl-3">
+
+            <div class="status-card">
+
+                <div class="status-icon">
+
+                    <i class="bi bi-chat-left-text"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Complaints</small>
+
+                    <strong>0 Active</strong>
+
+                    <span>
+                        No pending complaints
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <div class="section-title">
+
+        <div>
+
+            <small>CITIZEN SERVICES</small>
+
+            <h2>What would you like to do?</h2>
+
+        </div>
+
+        <span>8 services available</span>
+
+    </div>
+
+
+    <div class="row g-3">
+
+
+        <!-- ENTITLEMENT -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-basket"></i>
+
+                </div>
+
+                <h3>Ration Entitlement</h3>
+
+                <p>
+                    View monthly entitlement, allocated commodities
+                    and previous collection history.
+                </p>
+
+             <a href="{{ url_for('entitlement') }}" class="service-link">
+
+    View Details
+    <i class="bi bi-arrow-right"></i>
+
+</a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TOKEN -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-ticket-perforated"></i>
+
+                </div>
+
+                <h3>Ration Token</h3>
+
+                <p>
+                    Book a convenient ration collection slot
+                    and receive a digital token.
+                </p>
+
+      <a href="/token-booking" class="service-link">
+    Book Token
+    <i class="bi bi-arrow-right"></i>
+</a>
+<a href="{{ url_for('token_history') }}" class="service-link mt-2">
+    My Token History
+    <i class="bi bi-clock-history"></i>
+</a>
+            </div>
+
+        </div>
+
+
+
+        <!-- STOCK -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-shop"></i>
+
+                </div>
+
+                <h3>Shop & Stock</h3>
+
+                <p>
+                    Check Fair Price Shop information and
+                    available ration commodities.
+                </p>
+
+                <a href="{{ url_for('citizen_stock') }}" class="service-link">
+
+                    Check Stock
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- COMPLAINT -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-megaphone"></i>
+
+                </div>
+
+                <h3>Complaints</h3>
+
+                <p>
+                    Register a complaint, upload evidence
+                    and track its status.
+                </p>
+
+                <a href="{{ url_for('register_complaint') }}" class="service-link">
+
+    Register Complaint
+    <i class="bi bi-arrow-right"></i>
+
+</a>
+
+<a href="{{ url_for('my_complaints') }}" class="service-link mt-2">
+
+    My Complaints
+    <i class="bi bi-clock-history"></i>
+
+</a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- HOME DELIVERY -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-house-heart"></i>
+
+                </div>
+
+                <h3>Home Delivery</h3>
+
+                <p>
+                    Request doorstep delivery if you meet
+                    the eligible citizen criteria.
+                </p>
+
+              <a href="{{ url_for('home_delivery') }}" class="service-link">
+
+    Request Service
+    <i class="bi bi-arrow-right"></i>
+
+</a>
+
+<a href="{{ url_for('my_delivery_requests') }}"
+   class="service-link mt-2 d-block">
+
+    My Delivery Status
+    <i class="bi bi-clock-history"></i>
+
+</a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- AI -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-stars"></i>
+
+                </div>
+
+                <h3>AI Citizen Assistant</h3>
+
+                <p>
+                    Ask questions about PDS services in
+                    English or Tamil.
+                </p>
+
+                <a href="{{ url_for('ai_assistant') }}" class="service-link">
+
+    Ask AI Assistant
+    <i class="bi bi-arrow-right"></i>
+
+</a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RATING -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-star"></i>
+
+                </div>
+
+                <h3>Rate Your Shop</h3>
+
+                <p>
+                    Share your experience and provide
+                    a 1–5 star shop rating.
+                </p>
+
+                <a href="{{ url_for('citizen_rate_shop') }}" class="service-link">
+
+                    Give Rating
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- HISTORY -->
+
+        <div class="col-md-6 col-lg-4 col-xl-3">
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <i class="bi bi-clock-history"></i>
+
+                </div>
+
+                <h3>Service History</h3>
+
+                <p>
+                    Review previous ration collections,
+                    tokens and service activity.
+                </p>
+
+                <a href="{{ url_for('citizen_service_history') }}" class="service-link">
+
+                    View History
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= AI ================= -->
+
+    <section class="ai-card">
+
+        <div class="ai-icon">
+
+            <i class="bi bi-stars"></i>
+
+        </div>
+
+
+        <div>
+
+            <small>SMART PDS AI ASSISTANT</small>
+
+            <h3>
+
+                Need help with a PDS service?
+
+            </h3>
+
+
+            <p>
+
+                Get quick answers about entitlement, tokens,
+                stock, complaints and citizen services.
+
+            </p>
+
+        </div>
+
+
+        <button class="ai-button">
+
+            <i class="bi bi-chat-dots me-1"></i>
+
+            Ask AI Assistant
+
+        </button>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="citizen-footer">
+
+    <strong>Smart PDS</strong>
+
+    • AI-Based Public Distribution System
+
+    <br>
+
+    Academic / Student Project • Tamil Nadu
+
+</footer>
+
+
+
+<!-- Bootstrap -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

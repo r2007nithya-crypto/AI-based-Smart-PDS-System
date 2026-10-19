@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ration Entitlement | Smart PDS</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Existing CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        body {
+            background: #f5f8fc;
+            font-family: "Inter", "Noto Sans Tamil", sans-serif;
+            color: #172033;
+        }
+
+        /* TOP BAR */
+
+        .topbar {
+            background: #123b6d;
+            color: white;
+            padding: 7px 0;
+            font-size: 11px;
+        }
+
+        /* NAVBAR */
+
+        .main-navbar {
+            background: white;
+            border-bottom: 1px solid #e3e8ef;
+            box-shadow: 0 3px 15px rgba(18,59,109,0.06);
+            padding: 13px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .brand img {
+            width: 47px;
+            height: 47px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+
+        .brand strong {
+            display: block;
+            color: #123b6d;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            color: #7b8794;
+            font-size: 10px;
+        }
+
+        .nav-icon {
+            width: 39px;
+            height: 39px;
+            border: 1px solid #e1e7ee;
+            border-radius: 10px;
+            background: white;
+            color: #123b6d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-button {
+            border: 1px solid #e1e7ee;
+            background: white;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* MAIN */
+
+        .page-container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 35px 25px 60px;
+        }
+
+        /* PAGE HEADER */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header small {
+            color: #b18724;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+        }
+
+        .page-header h1 {
+            color: #123b6d;
+            font-size: 29px;
+            font-weight: 800;
+            margin: 5px 0;
+        }
+
+        .page-header p {
+            color: #7b8794;
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .back-button {
+            border: 1px solid #dce4ec;
+            background: white;
+            color: #123b6d;
+            border-radius: 9px;
+            padding: 9px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: #f1f5f9;
+            color: #123b6d;
+        }
+
+        /* CARD */
+
+        .panel {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(18,59,109,0.05);
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #edf1f5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header h2 {
+            font-size: 15px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .panel-header span {
+            color: #7b8794;
+            font-size: 10px;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        /* FAMILY INFO */
+
+        .info-item {
+            border-right: 1px solid #edf1f5;
+            padding: 5px 18px;
+        }
+
+        .info-item:last-child {
+            border-right: 0;
+        }
+
+        .info-item small {
+            display: block;
+            color: #7b8794;
+            font-size: 9px;
+            margin-bottom: 5px;
+        }
+
+        .info-item strong {
+            color: #172033;
+            font-size: 12px;
+        }
+
+        /* ENTITLEMENT CARDS */
+
+        .commodity-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 13px;
+            padding: 18px;
+            height: 100%;
+            background: #ffffff;
+            transition: 0.2s ease;
+        }
+
+        .commodity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(18,59,109,0.08);
+        }
+
+        .commodity-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
+            background: #edf4fa;
+            color: #123b6d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 13px;
+        }
+
+        .commodity-card h3 {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .commodity-card .category {
+            color: #7b8794;
+            font-size: 9px;
+        }
+
+        .quantity {
+            margin-top: 16px;
+        }
+
+        .quantity small {
+            color: #7b8794;
+            font-size: 9px;
+        }
+
+        .quantity strong {
+            display: block;
+            color: #123b6d;
+            font-size: 23px;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .quantity strong span {
+            font-size: 11px;
+            color: #7b8794;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #eaf7f0;
+            color: #25875b;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        /* SHOP */
+
+        .shop-box {
+            background: #f7f9fc;
+            border: 1px solid #e5ebf2;
+            border-radius: 12px;
+            padding: 17px;
+        }
+
+        .shop-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #e8f0f8;
+            color: #123b6d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .shop-box h3 {
+            font-size: 13px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .shop-box p {
+            color: #7b8794;
+            font-size: 10px;
+            margin: 4px 0 0;
+        }
+
+        /* TABLE */
+
+        .history-table {
+            margin: 0;
+        }
+
+        .history-table thead th {
+            background: #f7f9fc;
+            border-bottom: 1px solid #e3e8ef;
+            color: #64748b;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 12px;
+            white-space: nowrap;
+        }
+
+        .history-table tbody td {
+            color: #344054;
+            font-size: 10px;
+            padding: 13px 12px;
+            vertical-align: middle;
+        }
+
+        .collected {
+            color: #25875b;
+            font-weight: 800;
+        }
+
+        .pending {
+            color: #b18724;
+            font-weight: 800;
+        }
+
+        /* INFO BANNER */
+
+        .info-banner {
+            background: linear-gradient(
+                135deg,
+                #123b6d,
+                #1b5a8d
+            );
+            color: white;
+            border-radius: 15px;
+            padding: 21px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-banner-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .info-banner h3 {
+            font-size: 14px;
+            font-weight: 800;
+            margin: 0 0 4px;
+        }
+
+        .info-banner p {
+            color: #d8e5ef;
+            font-size: 10px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            padding: 18px;
+            color: #7b8794;
+            font-size: 10px;
+        }
+
+        .footer strong {
+            color: #123b6d;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            .info-item {
+                border-right: 0;
+                border-bottom: 1px solid #edf1f5;
+                padding: 12px 0;
+            }
+
+            .info-item:last-child {
+                border-bottom: 0;
+            }
+
+            .page-container {
+                padding: 25px 15px 45px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TOP NOTICE
+===================================================== -->
+
+<div class="topbar">
+
+    <div class="container text-center">
+
+        <i class="bi bi-info-circle-fill me-1"></i>
+
+        Academic Project • Not an Official Government Website
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="main-navbar">
+
+    <div class="container-fluid px-4">
+
+        <div class="d-flex align-items-center justify-content-between">
+
+            <a href="/citizen-dashboard" class="brand">
+
+                <img
+                    src="{{ url_for('static', filename='images/tn-emblem.png') }}"
+                    alt="Tamil Nadu Government Emblem"
+                >
+
+                <div>
+
+                    <strong>SMART PDS</strong>
+
+                    <span>Citizen Services Portal</span>
+
+                </div>
+
+            </a>
+
+
+            <div class="d-flex align-items-center gap-2">
+
+                <button class="nav-icon">
+
+                    <i class="bi bi-translate"></i>
+
+                </button>
+
+                <button class="nav-icon">
+
+                    <i class="bi bi-bell"></i>
+
+                </button>
+
+
+                <div class="dropdown">
+
+                    <button
+                        class="profile-button dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                    >
+
+                        <i class="bi bi-person-circle me-1"></i>
+
+                        {{ name }}
+
+                    </button>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-person me-2"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-gear me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger" href="/logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="page-container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+
+                <small>RATIONS & ENTITLEMENT</small>
+
+                <h1>My Ration Entitlement</h1>
+
+                <p>
+                    View your monthly allocation and previous collection history.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/citizen-dashboard"
+                class="back-button"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         FAMILY INFORMATION
+    ================================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                <i class="bi bi-person-vcard me-2"></i>
+
+                Beneficiary Information
+
+            </h2>
+
+            <span>Verified Citizen Record</span>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="row g-0">
+
+
+                <div class="col-md-3">
+
+                    <div class="info-item">
+
+                        <small>BENEFICIARY NAME</small>
+
+                        <strong>{{ name }}</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <div class="info-item">
+
+                        <small>RATION CARD NUMBER</small>
+
+                        <strong>{{ ration_card.card_number }}</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <div class="info-item">
+
+                        <small>CARD TYPE</small>
+
+                        <strong>{{ ration_card.card_type }}</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <div class="info-item">
+
+                        <small>FAMILY MEMBERS</small>
+
+                        <strong>4 Members</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="panel">
+
+    <div class="panel-header">
+
+        <h2>
+            <i class="bi bi-basket2 me-2"></i>
+            Current Month Entitlement
+        </h2>
+
+        <span>Current Month</span>
+
+    </div>
+
+    <div class="panel-body">
+
+        {% if entitlements %}
+
+        <div class="row g-3">
+
+            {% for item in entitlements %}
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="commodity-card">
+
+                    <div class="commodity-icon">
+                        <i class="bi bi-basket"></i>
+                    </div>
+
+                    <h3>
+                        {{ item.commodity_name }}
+                    </h3>
+
+                    <div class="category">
+                        PDS Commodity
+                    </div>
+
+                    <div class="quantity">
+
+                        <small>ALLOCATED QUANTITY</small>
+
+                        <strong>
+                            {{ item.entitled_quantity }}
+                            <span>{{ item.unit }}</span>
+                        </strong>
+
+                    </div>
+
+                    <div class="status-badge">
+
+                        <i class="bi bi-check-circle me-1"></i>
+
+                        Available
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-4">
+
+            <i class="bi bi-info-circle"
+               style="font-size: 35px; color:#123b6d;">
+            </i>
+
+            <h5 class="mt-3">
+                No entitlement available
+            </h5>
+
+            <p class="text-secondary mb-0">
+                No ration entitlement has been recorded for the current month.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+    <!-- =================================================
+         SHOP INFORMATION
+    ================================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                <i class="bi bi-shop me-2"></i>
+
+                Assigned Fair Price Shop
+
+            </h2>
+
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="shop-box">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div class="shop-icon">
+
+                        <i class="bi bi-shop"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+
+                            Fair Price Shop — FPS 0125
+
+                        </h3>
+
+                        <p>
+
+                            Tamil Nadu • Chennai District • Assigned PDS Shop
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="ms-auto text-end">
+
+                        <small class="d-block text-secondary">
+                            STATUS
+                        </small>
+
+                        <strong class="text-success">
+
+                            <i class="bi bi-check-circle me-1"></i>
+
+                            Active
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         COLLECTION HISTORY
+    ================================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+
+                <i class="bi bi-clock-history me-2"></i>
+
+                Collection History
+
+            </h2>
+
+            <span>Recent Records</span>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table history-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>MONTH</th>
+
+                        <th>RICE</th>
+
+                        <th>WHEAT</th>
+
+                        <th>SUGAR</th>
+
+                        <th>STATUS</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+    {% if collection_history %}
+
+        {% for transaction in collection_history %}
+
+        <tr>
+
+            <td>
+                {{ transaction.transaction_date.strftime('%B %Y') }}
+            </td>
+
+            <td>
+                {% if transaction.commodity_name == 'Rice' %}
+                    {{ transaction.quantity_kg }} {{ transaction.unit }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <td>
+                {% if transaction.commodity_name == 'Wheat' %}
+                    {{ transaction.quantity_kg }} {{ transaction.unit }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <td>
+                {% if transaction.commodity_name == 'Sugar' %}
+                    {{ transaction.quantity_kg }} {{ transaction.unit }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <td class="collected">
+
+                {% if transaction.status == 'COMPLETED' %}
+
+                    <i class="bi bi-check-circle me-1"></i>
+                    Collected
+
+                {% else %}
+
+                    {{ transaction.status }}
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <tr>
+
+            <td colspan="5" class="text-center text-secondary">
+
+                No previous ration collection records found.
+
+            </td>
+
+        </tr>
+
+    {% endif %}
+
+</tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         INFORMATION BANNER
+    ================================================== -->
+
+    <div class="info-banner">
+
+        <div class="info-banner-icon">
+
+            <i class="bi bi-info-circle"></i>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+
+                Need to collect your monthly ration?
+
+            </h3>
+
+            <p>
+
+                You can book a digital ration token from the Smart PDS
+                portal and select an available collection slot.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <strong>Smart PDS</strong>
+
+    • AI-Based Public Distribution System
+
+    <br>
+
+    Academic / Student Project • Tamil Nadu
+
+</footer>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

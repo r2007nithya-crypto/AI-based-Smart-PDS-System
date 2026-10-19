@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Service History | Smart PDS</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        body {
+            background: #f5f7fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 30px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1f2937;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .brand-title strong {
+            display: block;
+            font-size: 20px;
+        }
+
+        .brand-title span {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .page-header {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .page-header p {
+            color: #6b7280;
+        }
+
+        .history-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 18px;
+        }
+
+        .section-title i {
+            color: #1f4e79;
+            margin-right: 8px;
+        }
+
+        .table th {
+            background: #f8fafc;
+            color: #374151;
+            font-size: 13px;
+        }
+
+        .table td {
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+        }
+
+        .status-badge {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="container">
+
+            <a
+                href="{{ url_for('citizen_dashboard') }}"
+                class="brand"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='images/tn-emblem.png') }}"
+                    alt="Tamil Nadu Government Emblem"
+                >
+
+                <div class="brand-title">
+
+                    <strong>
+                        SMART PDS
+                    </strong>
+
+                    <span>
+                        Citizen Services Portal
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAGE -->
+
+    <div class="page-container">
+
+        <a
+            href="{{ url_for('citizen_dashboard') }}"
+            class="back-link"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+
+        <div class="page-header">
+
+            <h2>
+                <i class="bi bi-clock-history"></i>
+                Service History
+            </h2>
+
+            <p>
+                Review your previous ration collections,
+                token bookings, complaints and home delivery requests.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             RATION COLLECTION HISTORY
+        ====================================================== -->
+
+        <div class="history-card">
+
+            <h5 class="section-title">
+
+                <i class="bi bi-basket"></i>
+
+                Ration Collection History
+
+            </h5>
+
+
+            {% if collections %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Shop</th>
+
+                            <th>Commodity</th>
+
+                            <th>Quantity</th>
+
+                            <th>Verification</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for item in collections %}
+
+                        <tr>
+
+                            <td>
+                                {{ item.transaction_date }}
+                            </td>
+
+                            <td>
+                                {{ item.shop_name }}
+                                <br>
+                                <small class="text-muted">
+                                    {{ item.shop_code }}
+                                </small>
+                            </td>
+
+                            <td>
+                                {{ item.commodity_name }}
+                            </td>
+
+                            <td>
+                                {{ item.quantity_kg }} kg
+                            </td>
+
+                            <td>
+                                {{ item.verification_method }}
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge status-completed">
+
+                                    {{ item.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <i class="bi bi-basket fs-1"></i>
+
+                    <p class="mt-3 mb-0">
+                        No ration collection history available.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================================
+             TOKEN HISTORY
+        ====================================================== -->
+
+        <div class="history-card">
+
+            <h5 class="section-title">
+
+                <i class="bi bi-ticket-perforated"></i>
+
+                Token History
+
+            </h5>
+
+
+            {% if tokens %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Token</th>
+
+                            <th>Shop</th>
+
+                            <th>Date</th>
+
+                            <th>Time Slot</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for token in tokens %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ token.token_number }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ token.shop_code }}
+                            </td>
+
+                            <td>
+                                {{ token.collection_date }}
+                            </td>
+
+                            <td>
+                                {{ token.time_slot }}
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge status-completed">
+
+                                    {{ token.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <i class="bi bi-ticket-perforated fs-1"></i>
+
+                    <p class="mt-3 mb-0">
+                        No token booking history available.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================================
+             COMPLAINT HISTORY
+        ====================================================== -->
+
+        <div class="history-card">
+
+            <h5 class="section-title">
+
+                <i class="bi bi-chat-left-text"></i>
+
+                Complaint History
+
+            </h5>
+
+
+            {% if complaints %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Complaint ID</th>
+
+                            <th>Category</th>
+
+                            <th>Description</th>
+
+                            <th>Date</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for complaint in complaints %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ complaint.complaint_number }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ complaint.category }}
+                            </td>
+
+                            <td>
+                                {{ complaint.description }}
+                            </td>
+
+                            <td>
+                                {{ complaint.created_at }}
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge status-pending">
+
+                                    {{ complaint.status }}
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <i class="bi bi-chat-left-text fs-1"></i>
+
+                    <p class="mt-3 mb-0">
+                        No complaints registered.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================================
+             HOME DELIVERY HISTORY
+        ====================================================== -->
+
+        <div class="history-card">
+
+            <h5 class="section-title">
+
+                <i class="bi bi-truck"></i>
+
+                Home Delivery History
+
+            </h5>
+
+
+            {% if deliveries %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Request Number</th>
+
+                            <th>Eligibility</th>
+
+                            <th>Requested</th>
+
+                            <th>Status</th>
+
+                            <th>Admin Remarks</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for delivery in deliveries %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ delivery.request_number }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ delivery.eligibility_reason }}
+                            </td>
+
+                            <td>
+                                {{ delivery.requested_at }}
+                            </td>
+
+                            <td>
+
+                                <span class="status-badge status-pending">
+
+                                    {{ delivery.status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+                                {{ delivery.admin_remarks or "-" }}
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <i class="bi bi-truck fs-1"></i>
+
+                    <p class="mt-3 mb-0">
+                        No home delivery requests available.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

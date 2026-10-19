@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="AI-Based Smart Public Distribution System - Tamil Nadu"
+    >
+
+    <title>
+        Smart PDS | Tamil Nadu
+    </title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- Google Font -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- Our CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ACADEMIC PROJECT NOTICE
+===================================================== -->
+
+<div class="project-notice">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-center align-items-center gap-2">
+
+            <i class="bi bi-info-circle-fill"></i>
+
+            <span>
+                Academic Project • This is not an official Government of Tamil Nadu website.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TOP GOVERNMENT-STYLE BAR
+===================================================== -->
+
+<div class="top-bar">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <span>
+                    <i class="bi bi-geo-alt-fill"></i>
+                    Tamil Nadu
+                </span>
+
+                <span class="top-divider">
+                    |
+                </span>
+
+                <span>
+                    Public Distribution System
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <a href="#">
+                    Accessibility
+                </a>
+
+                <span class="top-divider">
+                    |
+                </span>
+
+                <button
+                    class="language-btn"
+                    onclick="toggleLanguage()"
+                >
+                    தமிழ் | English
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN HEADER
+===================================================== -->
+
+<header class="main-header">
+
+    <div class="container">
+
+        <div class="header-content">
+
+
+            <div class="emblem-placeholder">
+
+    <img
+        src="{{ url_for('static', filename='images/tn-emblem.png') }}"
+        alt="Tamil Nadu Government Emblem"
+    >
+
+</div>
+
+            <!-- Website identity -->
+
+            <div class="brand-text">
+
+                <div class="brand-government">
+
+                    GOVERNMENT OF TAMIL NADU
+
+                </div>
+
+
+                <h1>
+
+                    Smart Public Distribution System
+
+                </h1>
+
+
+                <p>
+
+                    AI-Based Intelligence & Decision Support Platform
+
+                </p>
+
+            </div>
+
+
+            <!-- Right side -->
+
+            <div class="header-right">
+
+                <div class="digital-india">
+
+                    <i class="bi bi-cpu"></i>
+
+                    <span>
+                        Digital<br>
+                        Public Service
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="main-navbar navbar navbar-expand-lg">
+
+    <div class="container">
+
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavigation"
+        >
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavigation"
+        >
+
+            <ul class="navbar-nav me-auto">
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link active"
+                        href="#home"
+                    >
+
+                        <i class="bi bi-house-door"></i>
+
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item dropdown">
+
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        data-bs-toggle="dropdown"
+                    >
+
+                        Services
+
+                    </a>
+
+
+                    <ul class="dropdown-menu">
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="#services"
+                            >
+
+                                <i class="bi bi-box-seam"></i>
+
+                                Ration Services
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="#services"
+                            >
+
+                                <i class="bi bi-ticket-perforated"></i>
+
+                                Token Booking
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="#services"
+                            >
+
+                                <i class="bi bi-chat-left-text"></i>
+
+                                Complaints
+
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="#services"
+                            >
+
+                                <i class="bi bi-truck"></i>
+
+                                Home Delivery
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#intelligence"
+                    >
+
+                        AI Intelligence
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#about"
+                    >
+
+                        About
+
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="#contact"
+                    >
+
+                        Contact
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+
+            <div class="nav-actions">
+
+                <a
+                    href="/login"
+                    class="btn btn-login"
+                >
+
+                    <i class="bi bi-person-circle"></i>
+
+                    Login
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section
+    class="hero-section"
+    id="home"
+>
+
+
+    <div class="hero-pattern"></div>
+
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+
+            <!-- LEFT -->
+
+            <div class="col-lg-7">
+
+
+                <div class="hero-badge">
+
+                    <span class="pulse-dot"></span>
+
+                    SMART GOVERNANCE • DATA • AI
+
+                </div>
+
+
+                <h2 class="hero-title">
+
+                    Smarter Distribution.
+
+                    <span>
+                        Better Public Service.
+                    </span>
+
+                </h2>
+
+
+                <p class="hero-description">
+
+                    An intelligent digital platform designed to
+                    support citizens, monitor Fair Price Shops,
+                    analyse PDS data and assist administrators
+                    with data-driven decisions.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+
+                    <a
+                        href="#login"
+                        class="btn btn-primary-custom"
+                    >
+
+                        <i class="bi bi-person"></i>
+
+                        Citizen Portal
+
+                    </a>
+
+
+                    <a
+                        href="#login"
+                        class="btn btn-outline-custom"
+                    >
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        Government Dashboard
+
+                    </a>
+
+                </div>
+
+
+                <div class="hero-trust">
+
+                    <div>
+
+                        <i class="bi bi-shield-check"></i>
+
+                        Secure
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-bar-chart"></i>
+
+                        Data Driven
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-translate"></i>
+
+                        Tamil + English
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="col-lg-5">
+
+
+                <div class="intelligence-card">
+
+
+                    <div class="card-glow"></div>
+
+
+                    <div class="intelligence-header">
+
+                        <div>
+
+                            <span class="small-label">
+                                PLATFORM
+                            </span>
+
+                            <h3>
+                                Smart PDS Intelligence
+                            </h3>
+
+                        </div>
+
+
+                        <div class="ai-icon">
+
+                            <i class="bi bi-stars"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+
+                        Connecting citizen services,
+                        PDS monitoring and artificial
+                        intelligence in one platform.
+
+                    </p>
+
+
+                    <div class="mini-stats">
+
+
+                        <div class="mini-stat">
+
+                            <strong>
+                                38
+                            </strong>
+
+                            <span>
+                                Districts
+                            </span>
+
+                        </div>
+
+
+                        <div class="mini-stat">
+
+                            <strong>
+                                AI
+                            </strong>
+
+                            <span>
+                                Analytics
+                            </span>
+
+                        </div>
+
+
+                        <div class="mini-stat">
+
+                            <strong>
+                                24×7
+                            </strong>
+
+                            <span>
+                                Digital Access
+                            </span>
+
+                        </div>
+
+
+                        <div class="mini-stat">
+
+                            <strong>
+                                TN
+                            </strong>
+
+                            <span>
+                                PDS Focus
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="intelligence-status">
+
+                        <span class="status-dot"></span>
+
+                        Intelligence services ready
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUICK SERVICES
+===================================================== -->
+
+<section class="quick-services">
+
+    <div class="container">
+
+        <div class="quick-service-grid">
+
+
+            <a href="#" class="quick-service">
+
+                <div class="quick-icon">
+                    <i class="bi bi-card-checklist"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Ration Card
+                    </strong>
+
+                    <span>
+                        View details
+                    </span>
+
+                </div>
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <a href="#" class="quick-service">
+
+                <div class="quick-icon">
+                    <i class="bi bi-ticket-perforated"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Digital Token
+                    </strong>
+
+                    <span>
+                        Book token
+                    </span>
+
+                </div>
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <a href="#" class="quick-service">
+
+                <div class="quick-icon">
+                    <i class="bi bi-chat-square-text"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Complaint
+                    </strong>
+
+                    <span>
+                        Register & track
+                    </span>
+
+                </div>
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <a href="#" class="quick-service">
+
+                <div class="quick-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Home Delivery
+                    </strong>
+
+                    <span>
+                        Eligible citizens
+                    </span>
+
+                </div>
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <a href="#" class="quick-service">
+
+                <div class="quick-icon">
+                    <i class="bi bi-shop"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Fair Price Shop
+                    </strong>
+
+                    <span>
+                        Shop information
+                    </span>
+
+                </div>
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <a href="#" class="quick-service">
+
+                <div class="quick-icon">
+                    <i class="bi bi-robot"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        AI Assistant
+                    </strong>
+
+                    <span>
+                        Ask Smart PDS
+                    </span>
+
+                </div>
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SERVICES
+===================================================== -->
+
+<section
+    class="services-section"
+    id="services"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <span>
+                CITIZEN SERVICES
+            </span>
+
+            <h2>
+                Everything You Need,
+                <br>
+                In One Place
+            </h2>
+
+            <p>
+
+                Access essential PDS services through a
+                simple and transparent digital platform.
+
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-number">
+                        01
+                    </div>
+
+                    <div class="service-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <h3>
+                        Ration Entitlement
+                    </h3>
+
+                    <p>
+
+                        View monthly entitlement,
+                        family details and collection history.
+
+                    </p>
+
+                    <a href="#">
+                        Explore
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-number">
+                        02
+                    </div>
+
+                    <div class="service-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+
+                    <h3>
+                        Fair Price Shops
+                    </h3>
+
+                    <p>
+
+                        Access shop information,
+                        stock availability and service ratings.
+
+                    </p>
+
+                    <a href="#">
+                        Explore
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-number">
+                        03
+                    </div>
+
+                    <div class="service-icon">
+                        <i class="bi bi-chat-left-dots"></i>
+                    </div>
+
+                    <h3>
+                        Complaint Tracking
+                    </h3>
+
+                    <p>
+
+                        Register complaints, upload evidence
+                        and track resolution status.
+
+                    </p>
+
+                    <a href="#">
+                        Explore
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-number">
+                        04
+                    </div>
+
+                    <div class="service-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+
+                    <h3>
+                        Home Delivery
+                    </h3>
+
+                    <p>
+
+                        Request home delivery for eligible
+                        citizens with administrator approval.
+
+                    </p>
+
+                    <a href="#">
+                        Explore
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="service-card">
+
+                    <div class="service-number">
+                        05
+                    </div>
+
+                    <div class="service-icon">
+                        <i class="bi bi-star"></i>
+                    </div>
+
+                    <h3>
+                        Ratings & Feedback
+                    </h3>
+
+                    <p>
+
+                        Share service feedback and
+                        rate Fair Price Shop performance.
+
+                    </p>
+
+                    <a href="#">
+                        Explore
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="service-card featured-service">
+
+                    <div class="service-number">
+                        06
+                    </div>
+
+                    <div class="service-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                    <h3>
+                        AI Citizen Assistant
+                    </h3>
+
+                    <p>
+
+                        Get multilingual assistance
+                        for common PDS services and questions.
+
+                    </p>
+
+                    <a href="#">
+                        Ask AI
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     AI INTELLIGENCE
+===================================================== -->
+
+<section
+    class="ai-section"
+    id="intelligence"
+>
+
+    <div class="container">
+
+
+        <div class="row align-items-center">
+
+
+            <div class="col-lg-6">
+
+
+                <span class="section-eyebrow">
+
+                    INTELLIGENT GOVERNANCE
+
+                </span>
+
+
+                <h2>
+
+                    Turning PDS Data
+                    <span>
+                        Into Decisions
+                    </span>
+
+                </h2>
+
+
+                <p>
+
+                    The platform analyses public and project
+                    data to identify patterns, predict demand
+                    and support better administrative decisions.
+
+                </p>
+
+
+                <div class="ai-feature-list">
+
+
+                    <div class="ai-feature">
+
+                        <div>
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+
+                        <span>
+                            Stock Demand Prediction
+                        </span>
+
+                    </div>
+
+
+                    <div class="ai-feature">
+
+                        <div>
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+
+                        <span>
+                            Unusual Pattern Detection
+                        </span>
+
+                    </div>
+
+
+                    <div class="ai-feature">
+
+                        <div>
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+
+                        <span>
+                            Complaint Trend Analysis
+                        </span>
+
+                    </div>
+
+
+                    <div class="ai-feature">
+
+                        <div>
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+
+                        <span>
+                            AI Recommendations
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+
+                <div class="analytics-preview">
+
+
+                    <div class="analytics-top">
+
+                        <div>
+
+                            <span>
+                                SMART ANALYTICS
+                            </span>
+
+                            <h4>
+                                PDS Intelligence Overview
+                            </h4>
+
+                        </div>
+
+
+                        <div class="live-badge">
+
+                            <span></span>
+
+                            LIVE
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-placeholder">
+
+
+                        <div class="chart-lines">
+
+                            <div style="height: 35%;"></div>
+
+                            <div style="height: 55%;"></div>
+
+                            <div style="height: 42%;"></div>
+
+                            <div style="height: 72%;"></div>
+
+                            <div style="height: 60%;"></div>
+
+                            <div style="height: 82%;"></div>
+
+                            <div style="height: 68%;"></div>
+
+                        </div>
+
+
+                        <div class="chart-labels">
+
+                            <span>Jan</span>
+                            <span>Feb</span>
+                            <span>Mar</span>
+                            <span>Apr</span>
+                            <span>May</span>
+                            <span>Jun</span>
+                            <span>Jul</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="analytics-bottom">
+
+
+                        <div>
+
+                            <span>
+                                Demand Trend
+                            </span>
+
+                            <strong>
+                                +12.4%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                AI Confidence
+                            </span>
+
+                            <strong>
+                                87%
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Pattern Alerts
+                            </span>
+
+                            <strong>
+                                08
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <small class="demo-label">
+
+                        *Illustrative project dashboard values
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LEADERSHIP / INFORMATION
+===================================================== -->
+
+<section
+    class="leadership-section"
+    id="about"
+>
+
+    <div class="container">
+
+
+        <div class="row align-items-center">
+
+
+            <div class="col-lg-7">
+
+
+                <span class="section-eyebrow">
+                    TAMIL NADU
+                </span>
+
+
+                <h2>
+
+                    Technology for
+                    <span>
+                        Better Public Service
+                    </span>
+
+                </h2>
+
+
+                <p>
+
+                    Smart PDS is an academic project focused on
+                    demonstrating how artificial intelligence,
+                    analytics and digital citizen services can
+                    support the Public Distribution System.
+
+                </p>
+
+
+                <div class="project-points">
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Citizen-centric digital services
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Data-driven PDS monitoring
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        AI-assisted decision support
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Tamil and English accessibility
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-5">
+
+
+                <div class="cm-card">
+
+
+                  <div class="cm-photo-placeholder">
+
+    <img
+        src="{{ url_for('static', filename='images/chief-minister.jpg') }}"
+        alt="Chief Minister of Tamil Nadu"
+    >
+
+</div>
+
+                    <div class="cm-info">
+
+                        <span>
+                            CURRENT CHIEF MINISTER
+                        </span>
+
+                        <h3>
+                            Thiru. C. Joseph Vijay
+                        </h3>
+
+                        <p>
+                            Chief Minister of Tamil Nadu
+                        </p>
+
+                        <small>
+
+                            Public information reference.
+                            Photograph will be added from
+                            an official/public government source.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer
+    class="main-footer"
+    id="contact"
+>
+
+    <div class="container">
+
+
+        <div class="row g-4">
+
+
+            <div class="col-lg-5">
+
+
+                <h3>
+                    Smart PDS
+                </h3>
+
+
+                <p>
+
+                    AI-Based Smart Public Distribution System
+                    & Intelligence Decision Support Platform.
+
+                </p>
+
+
+                <div class="footer-badge">
+
+                    <i class="bi bi-mortarboard-fill"></i>
+
+                    Academic / Student Project
+
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-6 col-lg-2">
+
+
+                <h5>
+                    Platform
+                </h5>
+
+
+                <a href="#">
+                    Home
+                </a>
+
+                <a href="#services">
+                    Services
+                </a>
+
+                <a href="#intelligence">
+                    AI Intelligence
+                </a>
+
+                <a href="#about">
+                    About
+                </a>
+
+            </div>
+
+
+            <div class="col-sm-6 col-lg-2">
+
+
+                <h5>
+                    Citizen
+                </h5>
+
+
+                <a href="#">
+                    Ration Services
+                </a>
+
+                <a href="#">
+                    Complaints
+                </a>
+
+                <a href="#">
+                    Home Delivery
+                </a>
+
+                <a href="#">
+                    Feedback
+                </a>
+
+            </div>
+
+
+            <div class="col-lg-3">
+
+
+                <h5>
+                    Disclaimer
+                </h5>
+
+
+                <p class="footer-small">
+
+                    This application is an academic project.
+                    It is not affiliated with or operated by
+                    the Government of Tamil Nadu.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="footer-bottom">
+
+
+            <span>
+
+                © 2026 Smart PDS Academic Project
+
+            </span>
+
+
+            <span>
+
+                Designed for Tamil Nadu PDS Intelligence
+
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     LANGUAGE SCRIPT
+===================================================== -->
+
+<script>
+
+function toggleLanguage() {
+
+    alert(
+        "Tamil / English language switching will be implemented in the next stage."
+    );
+
+}
+
+</script>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

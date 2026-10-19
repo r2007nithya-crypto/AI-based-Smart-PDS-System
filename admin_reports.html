@@ -1,0 +1,1587 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports & Data Management | Smart PDS</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        body {
+            background: #f4f7fb;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #1f2937;
+        }
+
+        .top-header {
+            background: linear-gradient(135deg, #123b5d, #176b87);
+            color: white;
+            padding: 24px 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .top-header h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .top-header p {
+            margin: 5px 0 0;
+            opacity: 0.85;
+        }
+
+        .page-container {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            height: 100%;
+            border: 1px solid #e5eaf0;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.05);
+            transition: 0.2s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 25px rgba(0,0,0,0.08);
+        }
+
+        .report-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf5f8;
+            color: #176b87;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .report-card h5 {
+            font-weight: 700;
+        }
+
+        .report-card p {
+            color: #6b7280;
+            font-size: 14px;
+            min-height: 42px;
+        }
+
+        .btn-report {
+            background: #176b87;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-report:hover {
+            background: #123b5d;
+            color: white;
+        }
+
+        .filter-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #e5eaf0;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.05);
+            margin-top: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-select,
+        .form-control {
+            border-radius: 9px;
+            min-height: 44px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn-excel {
+            background: #198754;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+        }
+
+        .btn-pdf {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #e5eaf0;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.05);
+            margin-top: 30px;
+        }
+
+        .table thead th {
+            background: #f1f5f9;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            font-size: 14px;
+        }
+
+        .empty-preview {
+            text-align: center;
+            padding: 50px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-preview i {
+            font-size: 45px;
+        }
+
+        .status-badge {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 13px;
+            margin-top: 35px;
+            padding-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+
+            .page-container {
+                padding: 18px;
+            }
+
+            .top-header {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="top-header">
+
+    <div class="container-fluid">
+
+        <h2>
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            Reports & Data Management
+        </h2>
+
+        <p>
+            Generate, preview and manage Smart PDS reports
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<div class="page-container">
+
+    <div class="container-fluid">
+
+
+        <!-- =================================================
+             REPORT TYPES
+        ================================================== -->
+
+        <h4 class="section-title">
+            Report Centre
+        </h4>
+
+        <div class="row g-4">
+
+
+            <!-- STOCK REPORT -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <h5>
+                        Stock Report
+                    </h5>
+
+                    <p>
+                        View commodity stock availability,
+                        minimum thresholds and low-stock status
+                        across Fair Price Shops.
+                    </p>
+
+                    <a
+                        href="/admin/reports?type=stock"
+                        class="btn-report"
+                    >
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+                        Generate
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPLAINT REPORT -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="bi bi-chat-left-text"></i>
+                    </div>
+
+                    <h5>
+                        Complaint Report
+                    </h5>
+
+                    <p>
+                        Analyse complaint categories,
+                        priorities, statuses and complaint trends.
+                    </p>
+
+                    <a
+                        href="/admin/reports?type=complaints"
+                        class="btn-report"
+                    >
+                        <i class="bi bi-file-earmark-text"></i>
+                        Generate
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- RATING REPORT -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="bi bi-star"></i>
+                    </div>
+
+                    <h5>
+                        Rating & Feedback Report
+                    </h5>
+
+                    <p>
+                        Review citizen ratings and feedback
+                        related to Fair Price Shop services.
+                    </p>
+
+                    <a
+                        href="/admin/reports?type=ratings"
+                        class="btn-report"
+                    >
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+                        Generate
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOKEN REPORT -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </div>
+
+                    <h5>
+                        Token & Distribution Report
+                    </h5>
+
+                    <p>
+                        Analyse token bookings,
+                        ration collections and distribution activity.
+                    </p>
+
+                    <a
+                        href="/admin/reports?type=tokens"
+                        class="btn-report"
+                    >
+                        <i class="bi bi-file-earmark-text"></i>
+                        Generate
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI REPORT -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+
+                    <h5>
+                        AI Analytics Report
+                    </h5>
+
+                    <p>
+                        View demand predictions, anomaly results,
+                        complaint trends and AI recommendations.
+                    </p>
+
+                    <a
+                        href="/admin/reports?type=ai"
+                        class="btn-report"
+                    >
+                        <i class="bi bi-graph-up-arrow"></i>
+                        Generate
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- SHOP PERFORMANCE -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+
+                    <h5>
+                        Shop Performance Report
+                    </h5>
+
+                    <p>
+                        Review Fair Price Shop performance
+                        and service evaluation metrics.
+                    </p>
+
+                    <a
+                        href="/admin/reports?type=performance"
+                        class="btn-report"
+                    >
+                        <i class="bi bi-bar-chart"></i>
+                        Generate
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             REPORT FILTERS
+        ================================================== -->
+
+       <div class="filter-card">
+
+<h4 class="section-title">
+    Report Filters
+</h4>
+
+<div class="row g-3">
+
+    <!-- Report Type -->
+    <div class="col-lg-6 col-md-6">
+
+        <label class="form-label">
+            Report Type
+        </label>
+
+        <select
+            class="form-select"
+            id="reportType"
+        >
+
+            <option value="">
+                Select Report
+            </option>
+
+            <option value="stock"
+                {% if report_type == "stock" %}selected{% endif %}>
+                Stock Report
+            </option>
+
+            <option value="complaints"
+                {% if report_type == "complaints" %}selected{% endif %}>
+                Complaint Report
+            </option>
+
+            <option value="ratings"
+                {% if report_type == "ratings" %}selected{% endif %}>
+                Rating & Feedback Report
+            </option>
+
+            <option value="tokens"
+                {% if report_type == "tokens" %}selected{% endif %}>
+                Token & Distribution Report
+            </option>
+
+            <option value="ai"
+                {% if report_type == "ai" %}selected{% endif %}>
+                AI Analytics Report
+            </option>
+
+            <option value="performance"
+                {% if report_type == "performance" %}selected{% endif %}>
+                Shop Performance Report
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- District -->
+    <div class="col-lg-6 col-md-6">
+
+        <label class="form-label">
+            District
+        </label>
+
+        <select
+            class="form-select"
+            id="district"
+        >
+
+            <option value="">
+                All Districts
+            </option>
+
+            {% for d in districts %}
+
+            <option
+                value="{{ d.district_name }}"
+                {% if request.args.get('district') == d.district_name %}
+                    selected
+                {% endif %}
+            >
+                {{ d.district_name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+</div>
+
+
+<!-- Action Buttons -->
+
+<div class="action-buttons">
+
+    <button
+        type="button"
+        class="btn-report"
+        id="generateReportBtn"
+    >
+
+        <i class="bi bi-file-earmark-bar-graph"></i>
+
+        Generate Report
+
+    </button>
+
+
+    <button
+        type="button"
+        class="btn-excel"
+        id="excelBtn"
+    >
+
+        <i class="bi bi-file-earmark-spreadsheet"></i>
+
+        Excel
+
+    </button>
+
+
+    <button
+        type="button"
+        class="btn-pdf"
+        id="pdfBtn"
+    >
+
+        <i class="bi bi-file-earmark-pdf"></i>
+
+        PDF
+
+    </button>
+
+</div>
+
+</div>
+
+        <!-- =================================================
+             REPORT PREVIEW
+        ================================================== -->
+      <div class="preview-card">
+
+    <h4 class="section-title">
+        Report Preview
+    </h4>
+
+    <div class="table-responsive">
+
+        <!-- =================================================
+             STOCK REPORT
+        ================================================== -->
+
+        {% if report_type == "stock" %}
+
+            {% if stock_report %}
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Shop</th>
+                        <th>Commodity</th>
+                        <th>Current Stock</th>
+                        <th>Minimum Threshold</th>
+                        <th>Stock Status</th>
+                        <th>Last Updated</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for stock in stock_report %}
+
+                    <tr>
+
+                        <td>
+                            <strong>{{ stock.shop_code }}</strong>
+                            <br>
+                            <small class="text-muted">
+                                {{ stock.shop_name }}
+                            </small>
+                        </td>
+
+                        <td>
+                            {{ stock.commodity_name }}
+                        </td>
+
+                        <td>
+                            <strong>{{ stock.quantity_kg }}</strong> KG
+                        </td>
+
+                        <td>
+                            {{ stock.minimum_threshold_kg }} KG
+                        </td>
+
+                        <td>
+
+                            {% if stock.quantity_kg <= stock.minimum_threshold_kg %}
+
+                                <span class="badge text-bg-danger">
+                                    Low Stock
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-success">
+                                    Available
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ stock.last_updated }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty-preview">
+
+                <i class="bi bi-box-seam"></i>
+
+                <p class="mt-3 mb-0">
+                    No stock records available.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+        <!-- =================================================
+             COMPLAINT REPORT
+        ================================================== -->
+
+        {% elif report_type == "complaints" %}
+
+            {% if complaint_report %}
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>Complaint Number</th>
+                        <th>Shop</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for complaint in complaint_report %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                #{{ complaint.complaint_id }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ complaint.complaint_number }}
+                        </td>
+
+                        <td>
+
+                            {% if complaint.shop_code %}
+
+                                <strong>
+                                    {{ complaint.shop_code }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ complaint.shop_name }}
+                                </small>
+
+                            {% else %}
+
+                                <span class="text-muted">
+                                    Not Assigned
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ complaint.category }}
+                        </td>
+
+                        <td>
+
+                            {% if complaint.priority == "HIGH" %}
+
+                                <span class="badge text-bg-danger">
+                                    High
+                                </span>
+
+                            {% elif complaint.priority == "MEDIUM" %}
+
+                                <span class="badge text-bg-warning">
+                                    Medium
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-secondary">
+                                    {{ complaint.priority }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if complaint.status == "RESOLVED" %}
+
+                                <span class="badge text-bg-success">
+                                    Resolved
+                                </span>
+
+                            {% elif complaint.status == "PENDING" %}
+
+                                <span class="badge text-bg-warning">
+                                    Pending
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-info">
+                                    {{ complaint.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ complaint.created_at }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty-preview">
+
+                <i class="bi bi-chat-square-text"></i>
+
+                <p class="mt-3 mb-0">
+                    No complaint records available.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+        <!-- =================================================
+             RATING & FEEDBACK REPORT
+        ================================================== -->
+
+        {% elif report_type == "ratings" %}
+
+            {% if rating_report %}
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Shop</th>
+                        <th>Rating</th>
+                        <th>Feedback</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for rating in rating_report %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ rating.shop_code }}
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+                                {{ rating.shop_name }}
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+                                {{ rating.rating }}
+                            </strong>
+                            / 5
+
+                            <span class="text-warning">
+                                ★
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if rating.feedback %}
+
+                                {{ rating.feedback }}
+
+                            {% else %}
+
+                                <span class="text-muted">
+                                    No feedback provided
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ rating.created_at }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty-preview">
+
+                <i class="bi bi-star"></i>
+
+                <p class="mt-3 mb-0">
+                    No rating and feedback records available.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+        <!-- =================================================
+             TOKEN & DISTRIBUTION REPORT
+        ================================================== -->
+
+        {% elif report_type == "tokens" %}
+
+            {% if token_report %}
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Token Number</th>
+                        <th>User ID</th>
+                        <th>Shop Code</th>
+                        <th>Collection Date</th>
+                        <th>Time Slot</th>
+                        <th>Status</th>
+                        <th>Booked On</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for token in token_report %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ token.token_number }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ token.user_id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ token.shop_code }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ token.collection_date }}
+                        </td>
+
+                        <td>
+                            {{ token.time_slot }}
+                        </td>
+
+                        <td>
+
+                            {% if token.status == "BOOKED" %}
+
+                                <span class="badge text-bg-primary">
+                                    Booked
+                                </span>
+
+                            {% elif token.status == "COMPLETED" %}
+
+                                <span class="badge text-bg-success">
+                                    Completed
+                                </span>
+
+                            {% elif token.status == "CANCELLED" %}
+
+                                <span class="badge text-bg-danger">
+                                    Cancelled
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-secondary">
+                                    {{ token.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ token.created_at }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty-preview">
+
+                <i class="bi bi-ticket-perforated"></i>
+
+                <p class="mt-3 mb-0">
+                    No token records available.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        <!-- =================================================
+             AI ANALYTICS REPORT
+        ================================================== -->
+
+        {% elif report_type == "ai" %}
+
+            <div class="row g-4">
+
+                <!-- AI DEMAND PREDICTIONS -->
+                <div class="col-12">
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-graph-up-arrow me-2"></i>
+                        Stock Demand Predictions
+                    </h5>
+
+                    {% if ai_prediction_report %}
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Shop</th>
+                                    <th>Commodity</th>
+                                    <th>Prediction Month</th>
+                                    <th>Predicted Quantity</th>
+                                    <th>Confidence</th>
+                                    <th>Model</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for prediction in ai_prediction_report %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            {{ prediction.shop_code }}
+                                        </strong>
+                                        <br>
+                                        <small class="text-muted">
+                                            {{ prediction.shop_name }}
+                                        </small>
+                                    </td>
+
+                                    <td>
+                                        {{ prediction.commodity_name }}
+                                    </td>
+
+                                    <td>
+                                        {{ prediction.prediction_month }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ prediction.predicted_quantity_kg }}
+                                        </strong>
+                                        KG
+                                    </td>
+
+                                    <td>
+                                        {{ prediction.confidence_score }}%
+                                    </td>
+
+                                    <td>
+                                        <span class="badge text-bg-primary">
+                                            {{ prediction.model_name }}
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="text-muted">
+                        No AI demand prediction records available.
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- ANOMALY DETECTION -->
+                <div class="col-12">
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-shield-exclamation me-2"></i>
+                        Anomaly Detection
+                    </h5>
+
+                    {% if anomaly_report %}
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Shop ID</th>
+                                    <th>Transaction ID</th>
+                                    <th>Anomaly Type</th>
+                                    <th>Anomaly Score</th>
+                                    <th>Description</th>
+                                    <th>Review Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for anomaly in anomaly_report %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ anomaly.shop_id }}
+                                    </td>
+
+                                    <td>
+                                        {{ anomaly.transaction_id }}
+                                    </td>
+
+                                    <td>
+                                        <span class="badge text-bg-warning">
+                                            {{ anomaly.anomaly_type }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ anomaly.anomaly_score }}
+                                    </td>
+
+                                    <td>
+                                        {{ anomaly.description }}
+                                    </td>
+
+                                    <td>
+                                        {{ anomaly.review_status }}
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="text-muted">
+                        No anomaly detection records available.
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- AI RECOMMENDATIONS -->
+                <div class="col-12">
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-lightbulb me-2"></i>
+                        AI Recommendations
+                    </h5>
+
+                    {% if recommendation_report %}
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Title</th>
+                                    <th>Recommendation</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for recommendation in recommendation_report %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ recommendation.recommendation_type }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ recommendation.title }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ recommendation.recommendation_text }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if recommendation.priority == "HIGH" %}
+
+                                            <span class="badge text-bg-danger">
+                                                High
+                                            </span>
+
+                                        {% elif recommendation.priority == "MEDIUM" %}
+
+                                            <span class="badge text-bg-warning">
+                                                Medium
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge text-bg-secondary">
+                                                {{ recommendation.priority }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+                                        {{ recommendation.status }}
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="text-muted">
+                        No AI recommendation records available.
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+                    <!-- =================================================
+             SHOP PERFORMANCE REPORT
+        ================================================== -->
+
+        {% elif report_type == "performance" %}
+
+            {% if performance_report %}
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Shop</th>
+                        <th>Evaluation Month</th>
+                        <th>Rating Score</th>
+                        <th>Stock Score</th>
+                        <th>Complaint Score</th>
+                        <th>Service Score</th>
+                        <th>Overall Score</th>
+                        <th>Performance Level</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for performance in performance_report %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ performance.shop_code }}
+                            </strong>
+                            <br>
+                            <small class="text-muted">
+                                {{ performance.shop_name }}
+                            </small>
+                        </td>
+
+                        <td>
+                            {{ performance.evaluation_month }}
+                        </td>
+
+                        <td>
+                            {{ performance.rating_score }}
+                        </td>
+
+                        <td>
+                            {{ performance.stock_score }}
+                        </td>
+
+                        <td>
+                            {{ performance.complaint_score }}
+                        </td>
+
+                        <td>
+                            {{ performance.service_score }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ performance.overall_score }}
+                            </strong>
+                        </td>
+
+                        <td>
+
+                            {% if performance.performance_level == "EXCELLENT" %}
+
+                                <span class="badge text-bg-success">
+                                    Excellent
+                                </span>
+
+                            {% elif performance.performance_level == "GOOD" %}
+
+                                <span class="badge text-bg-primary">
+                                    Good
+                                </span>
+
+                            {% elif performance.performance_level == "AVERAGE" %}
+
+                                <span class="badge text-bg-warning">
+                                    Average
+                                </span>
+
+                            {% elif performance.performance_level == "POOR" %}
+
+                                <span class="badge text-bg-danger">
+                                    Poor
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-secondary">
+                                    {{ performance.performance_level }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty-preview">
+
+                <i class="bi bi-shop"></i>
+
+                <p class="mt-3 mb-0">
+                    No shop performance records available.
+                </p>
+
+            </div>
+
+            {% endif %}
+        <!-- =================================================
+             DEFAULT
+        ================================================== -->
+
+        {% else %}
+
+        <div class="empty-preview">
+
+            <i class="bi bi-file-earmark-bar-graph"></i>
+
+            <p class="mt-3 mb-0">
+                Select a report type and generate a report
+                to view the results here.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div> 
+       
+
+```html
+<script>
+
+    // =========================================================
+    // GENERATE REPORT
+    // =========================================================
+
+    document
+        .getElementById("generateReportBtn")
+        .addEventListener("click", function () {
+
+            const reportType =
+                document.getElementById("reportType").value;
+
+            const district =
+                document.getElementById("district").value;
+
+
+            // Check report type
+
+            if (!reportType) {
+
+                alert("Please select a report type.");
+
+                return;
+            }
+
+
+            // Create URL parameters
+
+            const params =
+                new URLSearchParams();
+
+
+            // Add report type
+
+            params.set(
+                "type",
+                reportType
+            );
+
+
+            // Add district only if selected
+
+            if (district) {
+
+                params.set(
+                    "district",
+                    district
+                );
+
+            }
+
+
+            // Open generated report
+
+            window.location.href =
+                "/admin/reports?" +
+                params.toString();
+
+        });
+
+
+
+    // =========================================================
+    // EXCEL EXPORT
+    // =========================================================
+
+    document
+        .getElementById("excelBtn")
+        .addEventListener("click", function () {
+
+            const reportType =
+                new URLSearchParams(
+                    window.location.search
+                ).get("type");
+
+
+            if (!reportType) {
+
+                alert(
+                    "Please select a report first."
+                );
+
+                return;
+            }
+
+
+            window.location.href =
+                "/admin/reports/export/excel?type=" +
+                encodeURIComponent(reportType);
+
+        });
+
+
+
+    // =========================================================
+    // PDF EXPORT
+    // =========================================================
+
+    document
+        .getElementById("pdfBtn")
+        .addEventListener("click", function () {
+
+            const reportType =
+                new URLSearchParams(
+                    window.location.search
+                ).get("type");
+
+
+            if (!reportType) {
+
+                alert(
+                    "Please select a report first."
+                );
+
+                return;
+            }
+
+
+            window.location.href =
+                "/admin/reports/export/pdf?type=" +
+                encodeURIComponent(reportType);
+
+        });
+
+</script>
+
+
+</body>
+</html>
+

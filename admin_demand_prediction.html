@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Demand Prediction | Smart PDS</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Chart.js MUST LOAD BEFORE OUR CHART CODE -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        body {
+            background: #f4f7fb;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0f3d5e, #176b87);
+            color: white;
+            border-radius: 18px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-header h2 {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .prediction-card {
+            background: white;
+            border: none;
+            border-radius: 18px;
+            padding: 18px;
+            min-height: 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            transition: 0.25s;
+        }
+
+        .prediction-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e8f4ff;
+            color: #176b87;
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        .prediction-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #12344d;
+        }
+
+        .prediction-label {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .data-table-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            margin-top: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .table thead th {
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 14px;
+            border: none;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .badge-confidence {
+            background: #e8f7ee;
+            color: #198754;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge-model {
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .info-box {
+            margin-top: 25px;
+            background: #fff8e6;
+            border-left: 5px solid #f0ad4e;
+            padding: 18px;
+            border-radius: 12px;
+            color: #66501c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container py-4">
+
+    <!-- ========================= -->
+    <!-- PAGE HEADER -->
+    <!-- ========================= -->
+
+    <div class="page-header">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div>
+                <i class="bi bi-graph-up-arrow fs-1"></i>
+            </div>
+
+            <div>
+
+                <h2>
+                    AI Stock Demand Prediction
+                </h2>
+
+                <p>
+                    AI-assisted analysis of historical PDS distribution
+                    data for future stock planning.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% if predictions %}
+
+<!-- ========================= -->
+<!-- AI PREDICTION SUMMARY -->
+<!-- ========================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-4">
+
+        <div class="prediction-card">
+
+            <div class="icon-box">
+                <i class="bi bi-bar-chart"></i>
+            </div>
+
+            <div class="prediction-label">
+                Historical Average
+            </div>
+
+            <div class="prediction-value">
+                462.50
+                <span class="fs-6">KG</span>
+            </div>
+
+            <small class="text-muted">
+                Average monthly distribution
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="prediction-card">
+
+            <div class="icon-box">
+                <i class="bi bi-cpu"></i>
+            </div>
+
+            <div class="prediction-label">
+                AI Predicted Demand
+            </div>
+
+            <div class="prediction-value">
+                530.00
+                <span class="fs-6">KG</span>
+            </div>
+
+            <small class="text-muted">
+                Forecast for next month
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="prediction-card">
+
+            <div class="icon-box">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+            <div class="prediction-label">
+                Demand Change
+            </div>
+
+            <div class="prediction-value">
+                +14.59%
+            </div>
+
+            <small class="text-muted">
+                Compared with historical average
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+    <!-- ========================= -->
+    <!-- PREDICTION CARDS -->
+    <!-- ========================= -->
+
+    <div class="row g-4">
+
+        {% for prediction in predictions %}
+
+        <div class="col-xl-4 col-lg-6">
+
+            <div class="prediction-card">
+
+                <div class="icon-box">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+
+                <div class="prediction-label">
+                    Fair Price Shop
+                </div>
+
+                <h5 class="fw-bold mb-3">
+                    {{ prediction.shop_name }}
+                </h5>
+
+
+                <div class="prediction-label">
+                    Commodity
+                </div>
+
+                <div class="fw-semibold mb-3">
+                    {{ prediction.commodity_name }}
+                </div>
+
+
+                <div class="prediction-label">
+                    Predicted Demand
+                </div>
+
+                <div class="prediction-value">
+
+                    {{ prediction.predicted_quantity_kg }}
+
+                    <span class="fs-6">
+                        {{ prediction.unit }}
+                    </span>
+
+                </div>
+
+
+                <hr>
+
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <small class="text-muted">
+                            Prediction Month
+                        </small>
+
+                        <div class="fw-semibold">
+                            {{ prediction.prediction_month }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="text-end">
+
+                        <small class="text-muted">
+                            Confidence
+                        </small>
+
+                        <div>
+
+                            <span class="badge-confidence">
+                                {{ prediction.confidence_score }}%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- HISTORICAL DEMAND CHART -->
+    <!-- ========================= -->
+
+    <div class="data-table-card">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+
+                <h5 class="fw-bold mb-1">
+
+                    <i class="bi bi-graph-up"></i>
+
+                    Historical Demand Trend
+
+                </h5>
+
+                <small class="text-muted">
+
+                    Monthly commodity distribution pattern
+                    used for AI prediction
+
+                </small>
+
+            </div>
+
+
+            <span class="badge-model">
+
+                <i class="bi bi-cpu"></i>
+
+                AI Trend Analysis
+
+            </span>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <canvas id="demandTrendChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PREDICTION RECORDS -->
+    <!-- ========================= -->
+
+    <div class="data-table-card">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+
+                <h5 class="fw-bold mb-1">
+                    Prediction Records
+                </h5>
+
+                <small class="text-muted">
+                    AI-generated demand prediction history
+                </small>
+
+            </div>
+
+
+            <div>
+
+                <span class="badge-model">
+
+                    <i class="bi bi-cpu"></i>
+
+                    AI Analysis
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Shop
+                        </th>
+
+                        <th>
+                            Commodity
+                        </th>
+
+                        <th>
+                            Prediction Month
+                        </th>
+
+                        <th>
+                            Predicted Demand
+                        </th>
+
+                        <th>
+                            Confidence
+                        </th>
+
+                        <th>
+                            Model
+                        </th>
+
+                        <th>
+                            Generated
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for prediction in predictions %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">
+                                {{ prediction.shop_code }}
+                            </div>
+
+                            <small class="text-muted">
+                                {{ prediction.shop_name }}
+                            </small>
+
+                        </td>
+
+
+                        <td>
+                            {{ prediction.commodity_name }}
+                        </td>
+
+
+                        <td>
+                            {{ prediction.prediction_month }}
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+                                {{ prediction.predicted_quantity_kg }}
+                            </strong>
+
+                            {{ prediction.unit }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge-confidence">
+
+                                {{ prediction.confidence_score }}%
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="badge-model">
+
+                                {{ prediction.model_name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            {{ prediction.created_at }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- INFORMATION -->
+    <!-- ========================= -->
+
+    <div class="info-box">
+
+        <div class="d-flex gap-3">
+
+            <i class="bi bi-info-circle fs-4"></i>
+
+            <div>
+
+                <strong>
+                    How this AI prediction works
+                </strong>
+
+                <p class="mb-0 mt-1">
+
+                    The system analyzes historical commodity
+                    distribution quantities and identifies the
+                    recent demand trend. The resulting estimate
+                    can support administrators when planning
+                    future stock requirements.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- ========================= -->
+    <!-- EMPTY STATE -->
+    <!-- ========================= -->
+
+    <div class="prediction-card">
+
+        <div class="empty-state">
+
+            <i class="bi bi-bar-chart-line"></i>
+
+            <h4>
+                No prediction data available
+            </h4>
+
+            <p>
+
+                AI demand predictions will appear here after
+                historical distribution data is processed.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% endif %}
+
+</div>
+
+
+<!-- ========================= -->
+<!-- CHART JAVASCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+    const historyLabels =
+        {{ history_labels | tojson }};
+
+    const historyValues =
+        {{ history_values | tojson }};
+
+
+    const chartCanvas =
+        document.getElementById("demandTrendChart");
+
+
+    if (chartCanvas && typeof Chart !== "undefined") {
+
+        new Chart(chartCanvas, {
+
+            type: "line",
+
+            data: {
+
+                labels: historyLabels,
+
+                datasets: [
+
+                    {
+
+                        label: "Distributed Quantity (KG)",
+
+                        data: historyValues,
+
+                        borderWidth: 3,
+
+                        tension: 0.35,
+
+                        fill: false,
+
+                        pointRadius: 5,
+
+                        pointHoverRadius: 7
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                plugins: {
+
+                    legend: {
+
+                        display: true
+
+                    }
+
+                },
+
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+
+                            display: true,
+
+                            text: "Quantity (KG)"
+
+                        }
+
+                    },
+
+
+                    x: {
+
+                        title: {
+
+                            display: true,
+
+                            text: "Month"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+</script>
+
+
+<!-- Bootstrap JavaScript -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+</html>

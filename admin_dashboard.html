@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Intelligence Dashboard | Smart PDS</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #142b4a;
+            --navy-deep: #10213b;
+            --teal: #087f78;
+            --teal-light: #e5f5f2;
+            --page: #f4f7fb;
+            --text: #24334b;
+            --muted: #8290a4;
+            --border: #e7ecf3;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--page);
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 258px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+            color: white;
+            padding: 25px 17px 18px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 3px 10px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
+            margin-bottom: 23px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, .12);
+            color: #8ee2d2;
+            font-size: 22px;
+            margin-bottom: 13px;
+        }
+
+        .brand h4 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 7px;
+            color: #a9bbd0;
+            font-size: 10px;
+            letter-spacing: .5px;
+        }
+
+        .nav-caption {
+            padding: 0 12px;
+            margin: 0 0 11px;
+            color: #8398b4;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #b8c6d8;
+            padding: 12px 13px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .sidebar .nav-link i {
+            width: 19px;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: white;
+        }
+
+        .sidebar .nav-link.active {
+            background: linear-gradient(100deg, #087f78, #11988c);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .12);
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .sidebar-note {
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .045);
+            margin-bottom: 15px;
+        }
+
+        .sidebar-note i {
+            color: #83dfcf;
+            font-size: 17px;
+        }
+
+        .sidebar-note strong {
+            display: block;
+            margin-top: 9px;
+            font-size: 11px;
+        }
+
+        .sidebar-note small {
+            display: block;
+            margin-top: 5px;
+            color: #a9bbd0;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* MAIN LAYOUT */
+
+        .main {
+            margin-left: 258px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            min-height: 78px;
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, .96);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .topbar h5 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -.35px;
+        }
+
+        .topbar .subtitle {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .system-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 1px solid #d5eee5;
+            background: #effaf5;
+            color: #21845d;
+            border-radius: 30px;
+            padding: 8px 11px;
+            font-size: 10px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #23a36d;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            border: 0;
+            background: transparent;
+            color: var(--text);
+            text-align: right;
+        }
+
+        .admin-profile strong {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .admin-profile small {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .admin-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: var(--teal-light);
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .content {
+            padding: 28px 32px 22px;
+            max-width: 1700px;
+            margin: auto;
+        }
+
+        /* WELCOME BANNER */
+
+        .welcome {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 18px;
+            color: white;
+            background: linear-gradient(115deg, #142b4a 0%, #1c4263 63%, #087f78 130%);
+            box-shadow: 0 12px 28px rgba(20, 43, 74, .12);
+        }
+
+        .welcome::before {
+            content: "";
+            position: absolute;
+            width: 270px;
+            height: 270px;
+            right: 100px;
+            top: -175px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 50%;
+            box-shadow: 0 0 0 30px rgba(255, 255, 255, .025),
+                        0 0 0 60px rgba(255, 255, 255, .025);
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 10px;
+            margin-bottom: 13px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .11);
+            color: #c4f4e9;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .welcome h2 {
+            margin: 0 0 9px;
+            font-size: clamp(21px, 2.2vw, 28px);
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
+
+        .welcome p {
+            max-width: 610px;
+            margin: 0;
+            color: #d1dceb;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .welcome-visual {
+            position: relative;
+            z-index: 1;
+            min-width: 135px;
+            min-height: 115px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-visual .visual-circle {
+            width: 105px;
+            height: 105px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b4f3e5;
+            background: rgba(255, 255, 255, .10);
+            border: 1px solid rgba(255, 255, 255, .15);
+            font-size: 48px;
+            transform: rotate(-5deg);
+        }
+
+        /* SECTION HEADINGS */
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 30px 0 15px;
+        }
+
+        .section-title h4 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -.3px;
+        }
+
+        .section-title p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .section-label {
+            color: var(--teal);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* KPI CARDS */
+
+        .dashboard-card {
+            position: relative;
+            height: 100%;
+            min-height: 165px;
+            padding: 21px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 3px 10px rgba(26, 49, 76, .025);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(26, 49, 76, .07);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 19px;
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-teal {
+            background: #e5f5f2;
+            color: #087f78;
+        }
+
+        .icon-blue {
+            background: #eaf1ff;
+            color: #4275d6;
+        }
+
+        .icon-purple {
+            background: #f1ebff;
+            color: #8056ca;
+        }
+
+        .icon-amber {
+            background: #fff3df;
+            color: #c58625;
+        }
+
+        .kpi-label {
+            color: #718097;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .dashboard-card h3 {
+            margin: 0 0 6px;
+            color: var(--navy);
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -.8px;
+        }
+
+        .dashboard-card p {
+            margin: 0;
+            color: #93a0b1;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        /* MANAGEMENT ACTIONS */
+
+        .action-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 168px;
+            padding: 21px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            color: var(--text);
+            transition: transform .2s ease, border-color .2s ease,
+                        box-shadow .2s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: #b7ded8;
+            box-shadow: 0 10px 25px rgba(26, 49, 76, .06);
+            color: var(--text);
+        }
+
+        .action-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 17px;
+        }
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--teal-light);
+            color: var(--teal);
+            font-size: 21px;
+        }
+
+        .action-arrow {
+            color: #a0adbd;
+            font-size: 16px;
+            transition: transform .2s ease;
+        }
+
+        .action-card:hover .action-arrow {
+            color: var(--teal);
+            transform: translateX(3px);
+        }
+
+        .action-card h6 {
+            margin: 0 0 7px;
+            color: var(--navy);
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .action-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        /* AI PREDICTIONS */
+
+        .ai-panel {
+            margin-top: 31px;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(26, 49, 76, .025);
+        }
+
+        .ai-panel-header {
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ai-heading {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .ai-heading-icon {
+            width: 47px;
+            height: 47px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e9f0ff;
+            color: #456ed0;
+            font-size: 23px;
+        }
+
+        .ai-panel-header h4 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .ai-panel-header p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 30px;
+            padding: 8px 11px;
+            background: #eef2ff;
+            color: #4d65b7;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .4px;
+            white-space: nowrap;
+        }
+
+        .ai-panel-body {
+            padding: 23px;
+        }
+
+        .prediction-card {
+            height: 100%;
+            padding: 21px;
+            border: 1px solid #e6ebf4;
+            border-radius: 15px;
+            background: #fbfcff;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .prediction-card:hover {
+            border-color: #c9d6f3;
+            box-shadow: 0 7px 18px rgba(35, 57, 94, .05);
+        }
+
+        .prediction-shop {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .prediction-label {
+            color: #8996a9;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+        }
+
+        .prediction-shop h5 {
+            margin: 6px 0 4px;
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .prediction-shop small {
+            color: #8794a6;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .prediction-shop-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            border-radius: 13px;
+            background: #edf2ff;
+            color: #5276ce;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .prediction-divider {
+            border: 0;
+            border-top: 1px solid #e7ecf4;
+            margin: 19px 0;
+            opacity: 1;
+        }
+
+        .prediction-data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .prediction-data small {
+            display: block;
+            margin-bottom: 7px;
+            color: #8996a9;
+            font-size: 10px;
+        }
+
+        .prediction-data strong {
+            color: var(--navy);
+            font-size: 12px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .prediction-quantity {
+            margin-top: 20px;
+            padding: 16px;
+            border: 1px solid #e8edf5;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .prediction-quantity .quantity-value {
+            margin-top: 5px;
+            color: var(--navy);
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -.7px;
+        }
+
+        .prediction-quantity .quantity-value small {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: #e6f7ee;
+            color: #218653;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .confidence-track {
+            height: 6px;
+            margin-top: 10px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #e7edf5;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #087f78, #36b69e);
+        }
+
+        .ai-empty {
+            text-align: center;
+            padding: 45px 15px;
+        }
+
+        .ai-empty-icon {
+            width: 64px;
+            height: 64px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: #f0f4fa;
+            color: #8a9ab2;
+            font-size: 29px;
+        }
+
+        .ai-empty h5 {
+            margin-top: 17px;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .ai-empty p {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* FOOTER */
+
+        .dashboard-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 28px;
+            padding: 17px 0 5px;
+            border-top: 1px solid var(--border);
+            color: #8a97a9;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .dashboard-footer strong {
+            color: #62738b;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            .sidebar {
+                width: 76px;
+                padding: 22px 10px;
+            }
+
+            .brand {
+                padding: 0 0 20px;
+                text-align: center;
+            }
+
+            .brand-mark {
+                width: 43px;
+                height: 43px;
+            }
+
+            .brand h4,
+            .brand small,
+            .nav-caption,
+            .sidebar .nav-link span,
+            .sidebar-note {
+                display: none;
+            }
+
+            .sidebar .nav-link {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .sidebar .nav-link i {
+                margin: 0;
+                font-size: 19px;
+            }
+
+            .sidebar .nav-link {
+                position: relative;
+            }
+
+            .main {
+                margin-left: 76px;
+            }
+
+            .content {
+                padding: 24px;
+            }
+
+            .topbar {
+                padding: 14px 24px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .topbar {
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .topbar h5 {
+                font-size: 14px;
+            }
+
+            .topbar .subtitle {
+                max-width: 190px;
+                font-size: 10px;
+                line-height: 1.6;
+            }
+
+            .topbar-right {
+                gap: 7px;
+            }
+
+            .system-status {
+                display: none;
+            }
+
+            .admin-profile {
+                gap: 0;
+            }
+
+            .admin-profile > div:first-child {
+                display: none;
+            }
+
+            .admin-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .content {
+                padding: 17px 13px;
+            }
+
+            .welcome {
+                padding: 23px 20px;
+                border-radius: 15px;
+            }
+
+            .welcome h2 {
+                font-size: 21px;
+                line-height: 1.4;
+            }
+
+            .welcome p {
+                font-size: 11px;
+            }
+
+            .welcome-visual {
+                display: none;
+            }
+
+            .dashboard-card {
+                min-height: 145px;
+                padding: 16px;
+            }
+
+            .dashboard-card h3 {
+                font-size: 24px;
+            }
+
+            .section-title {
+                align-items: flex-start;
+            }
+
+            .section-title h4 {
+                font-size: 14px;
+            }
+
+            .action-card {
+                min-height: 155px;
+                padding: 16px;
+            }
+
+            .ai-panel-header {
+                align-items: flex-start;
+                padding: 17px;
+            }
+
+            .ai-heading {
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .ai-heading-icon {
+                width: 39px;
+                height: 39px;
+                font-size: 19px;
+                flex-shrink: 0;
+            }
+
+            .ai-panel-header h4 {
+                font-size: 13px;
+            }
+
+            .ai-badge {
+                display: none;
+            }
+
+            .ai-panel-body {
+                padding: 13px;
+            }
+
+            .prediction-card {
+                padding: 16px;
+            }
+
+            .dashboard-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-mark">
+            <i class="bi bi-buildings"></i>
+        </div>
+
+        <h4>Smart PDS</h4>
+        <small>INTELLIGENCE & DECISION SUPPORT</small>
+    </div>
+
+    <div class="nav-caption">Main workspace</div>
+
+    <a href="{{ url_for('admin_dashboard') }}" class="nav-link active"
+       title="Dashboard">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+    <a href="{{ url_for('admin_shops') }}" class="nav-link"
+       title="Fair Price Shops">
+        <i class="bi bi-shop"></i>
+        <span>Fair Price Shops</span>
+    </a>
+
+    <a href="{{ url_for('admin_stock') }}" class="nav-link"
+       title="Stock Management">
+        <i class="bi bi-box-seam"></i>
+        <span>Stock Management</span>
+    </a>
+
+    <a href="{{ url_for('admin_complaints') }}" class="nav-link"
+       title="Complaints">
+        <i class="bi bi-chat-left-text"></i>
+        <span>Complaints</span>
+    </a>
+
+    <a href="{{ url_for('admin_delivery_requests') }}" class="nav-link"
+       title="Home Delivery">
+        <i class="bi bi-house-heart"></i>
+        <span>Home Delivery</span>
+    </a>
+
+    <div class="nav-caption mt-4">Intelligence</div>
+
+    <a href="{{ url_for('admin_decision_support') }}" class="nav-link"
+       title="Analytics">
+        <i class="bi bi-bar-chart-line"></i>
+        <span>Analytics</span>
+    </a>
+
+    <a href="{{ url_for('admin_decision_support') }}" class="nav-link"
+       title="AI Insights">
+        <i class="bi bi-robot"></i>
+        <span>AI Insights</span>
+    </a>
+
+    <a href="{{ url_for('admin_reports') }}" class="nav-link"
+       title="Reports">
+        <i class="bi bi-file-earmark-bar-graph"></i>
+        <span>Reports</span>
+    </a>
+
+    <div class="sidebar-bottom">
+        <div class="sidebar-note">
+            <i class="bi bi-shield-check"></i>
+            <strong>Administrative Workspace</strong>
+            <small>Data-driven monitoring and decision support for PDS operations.</small>
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="nav-link"
+           title="Logout">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+        <div>
+            <h5>Government Intelligence Dashboard</h5>
+            <span class="subtitle">
+                Tamil Nadu Public Distribution System · Administration
+            </span>
+        </div>
+
+        <div class="topbar-right">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                Intelligence Workspace
+            </div>
+
+            <div class="dropdown">
+
+                <button class="admin-profile dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        type="button"
+                        aria-expanded="false">
+
+                    <div>
+                        <strong>{{ name or "Administrator" }}</strong>
+                        <br>
+                        <small>Administrator</small>
+                    </div>
+
+                    <div class="admin-icon">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+
+                    <li>
+                        <a class="dropdown-item py-2" href="#">
+                            <i class="bi bi-person me-2"></i>
+                            My Profile
+                        </a>
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a class="dropdown-item text-danger py-2"
+                           href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right me-2"></i>
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD CONTENT -->
+    <div class="content">
+
+        <!-- WELCOME BANNER -->
+        <section class="welcome">
+
+            <div class="welcome-content">
+
+                <div class="welcome-tag">
+                    <i class="bi bi-stars"></i>
+                    PDS Intelligence Centre
+                </div>
+
+                <h2>Welcome back, {{ name or "Administrator" }}</h2>
+
+                <p>
+                    Monitor Fair Price Shops, commodity availability and citizen
+                    services. Review AI-generated insights to support informed
+                    administrative decisions.
+                </p>
+
+            </div>
+
+            <div class="welcome-visual">
+                <div class="visual-circle">
+                    <i class="bi bi-bar-chart-line"></i>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- OVERVIEW -->
+        <div class="section-title mt-0">
+            <div>
+                <h4>Operational Overview</h4>
+                <p>A quick overview of the current monitoring workspace.</p>
+            </div>
+
+            <span class="section-label">ADMIN OVERVIEW</span>
+        </div>
+
+
+        <div class="row g-3">
+
+            <div class="col-6 col-xl-3">
+                <div class="dashboard-card">
+
+                    <div class="kpi-top">
+                        <span class="kpi-label">Fair Price Shops</span>
+                        <div class="card-icon icon-teal">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                    </div>
+
+                    <h3>3</h3>
+                    <p>Registered shops</p>
+
+                </div>
+            </div>
+
+
+            <div class="col-6 col-xl-3">
+                <div class="dashboard-card">
+
+                    <div class="kpi-top">
+                        <span class="kpi-label">Beneficiaries</span>
+                        <div class="card-icon icon-blue">
+                            <i class="bi bi-people"></i>
+                        </div>
+                    </div>
+
+                    <h3>2,210</h3>
+                    <p>Across monitored shops</p>
+
+                </div>
+            </div>
+
+
+            <div class="col-6 col-xl-3">
+                <div class="dashboard-card">
+
+                    <div class="kpi-top">
+                        <span class="kpi-label">Stock Status</span>
+                        <div class="card-icon icon-purple">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                    </div>
+
+                    <h3>Good</h3>
+                    <p>Current monitoring</p>
+
+                </div>
+            </div>
+
+
+            <div class="col-6 col-xl-3">
+                <div class="dashboard-card">
+
+                    <div class="kpi-top">
+                        <span class="kpi-label">Alerts</span>
+                        <div class="card-icon icon-amber">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                    </div>
+
+                    <h3>0</h3>
+                    <p>Attention required</p>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- MANAGEMENT MODULES -->
+        <div class="section-title">
+
+            <div>
+                <h4>Management Modules</h4>
+                <p>Access operational services and administration tools.</p>
+            </div>
+
+        </div>
+
+
+        <div class="row g-3">
+
+            <div class="col-md-6 col-xl-4">
+                <a href="{{ url_for('admin_shops') }}" class="action-card">
+
+                    <div class="action-top">
+                        <div class="action-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <i class="bi bi-arrow-up-right action-arrow"></i>
+                    </div>
+
+                    <h6>Fair Price Shop Management</h6>
+                    <p>View and monitor registered FPS records.</p>
+
+                </a>
+            </div>
+
+
+            <div class="col-md-6 col-xl-4">
+                <a href="/admin/stock" class="action-card">
+
+                    <div class="action-top">
+                        <div class="action-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                        <i class="bi bi-arrow-up-right action-arrow"></i>
+                    </div>
+
+                    <h6>Stock Management</h6>
+                    <p>Monitor commodity stock and availability.</p>
+
+                </a>
+            </div>
+
+
+            <div class="col-md-6 col-xl-4">
+                <a href="{{ url_for('admin_decision_support') }}" class="action-card">
+
+                    <div class="action-top">
+                        <div class="action-icon">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+                        <i class="bi bi-arrow-up-right action-arrow"></i>
+                    </div>
+
+                    <h6>PDS Analytics</h6>
+                    <p>Analyse district and shop-level performance.</p>
+
+                </a>
+            </div>
+
+
+            <div class="col-md-6 col-xl-4">
+                <a href="{{ url_for('admin_complaints') }}" class="action-card">
+
+                    <div class="action-top">
+                        <div class="action-icon">
+                            <i class="bi bi-chat-left-text"></i>
+                        </div>
+                        <i class="bi bi-arrow-up-right action-arrow"></i>
+                    </div>
+
+                    <h6>Complaint Monitoring</h6>
+                    <p>Monitor citizen complaints and service issues.</p>
+
+                </a>
+            </div>
+
+
+            <div class="col-md-6 col-xl-4">
+                <a href="{{ url_for('admin_decision_support') }}" class="action-card">
+
+                    <div class="action-top">
+                        <div class="action-icon">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <i class="bi bi-arrow-up-right action-arrow"></i>
+                    </div>
+
+                    <h6>AI Decision Support</h6>
+                    <p>Review predictions, unusual patterns and recommendations.</p>
+
+                </a>
+            </div>
+
+
+            <div class="col-md-6 col-xl-4">
+                <a href="{{ url_for('admin_reports') }}" class="action-card">
+
+                    <div class="action-top">
+                        <div class="action-icon">
+                            <i class="bi bi-file-earmark-bar-graph"></i>
+                        </div>
+                        <i class="bi bi-arrow-up-right action-arrow"></i>
+                    </div>
+
+                    <h6>Reports & Data</h6>
+                    <p>Access government monitoring reports and summaries.</p>
+
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- AI DEMAND INTELLIGENCE -->
+        <section class="ai-panel">
+
+            <div class="ai-panel-header">
+
+                <div class="ai-heading">
+
+                    <div class="ai-heading-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+
+                    <div>
+                        <h4>AI Demand Intelligence</h4>
+                        <p>
+                            Predicted commodity demand generated by the AI analytics engine.
+                        </p>
+                    </div>
+
+                </div>
+
+                <span class="ai-badge">
+                    <i class="bi bi-stars"></i>
+                    AI ANALYTICS
+                </span>
+
+            </div>
+
+
+            <div class="ai-panel-body">
+
+                {% if ai_predictions %}
+
+                <div class="row g-3">
+
+                    {% for prediction in ai_predictions %}
+
+                    <div class="col-xl-6 col-lg-6 col-md-12">
+
+                        <div class="prediction-card">
+
+                            <div class="prediction-shop">
+
+                                <div>
+                                    <span class="prediction-label">
+                                        Fair Price Shop
+                                    </span>
+
+                                    <h5>{{ prediction.shop_code }}</h5>
+
+                                    <small>{{ prediction.shop_name }}</small>
+                                </div>
+
+                                <div class="prediction-shop-icon">
+                                    <i class="bi bi-shop"></i>
+                                </div>
+
+                            </div>
+
+
+                            <hr class="prediction-divider">
+
+
+                            <div class="prediction-data">
+
+                                <div>
+                                    <small>Commodity</small>
+
+                                    <strong>
+                                        <i class="bi bi-box-seam me-1"></i>
+                                        {{ prediction.commodity_name }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <small>Forecast Month</small>
+
+                                    <strong>
+                                        <i class="bi bi-calendar3 me-1"></i>
+                                        {{ prediction.prediction_month.strftime('%b %Y') }}
+                                    </strong>
+                                </div>
+
+                            </div>
+
+
+                            <div class="prediction-quantity">
+
+                                <div>
+                                    <small class="prediction-label">
+                                        Predicted Demand
+                                    </small>
+
+                                    <div class="quantity-value">
+                                        {{ prediction.predicted_quantity_kg }}
+                                        <small>KG</small>
+                                    </div>
+                                </div>
+
+                                <div class="text-end">
+                                    <small class="prediction-label d-block mb-2">
+                                        Confidence
+                                    </small>
+
+                                    <span class="confidence-badge">
+                                        {{ prediction.confidence_score }}%
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="mt-3">
+
+                                <div class="d-flex justify-content-between gap-2">
+                                    <small class="text-muted">
+                                        AI Confidence
+                                    </small>
+
+                                    <small class="fw-bold">
+                                        {{ prediction.confidence_score }}%
+                                    </small>
+                                </div>
+
+                                <div class="confidence-track">
+                                    <div
+                                        class="confidence-fill"
+                                        role="progressbar"
+                                        aria-label="AI confidence"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                        aria-valuenow="{{ prediction.confidence_score }}"
+                                        style="width: {{ prediction.confidence_score }}%;"
+                                    ></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                <div class="ai-empty">
+
+                    <div class="ai-empty-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <h5>No AI predictions available</h5>
+
+                    <p>
+                        Prediction results will appear here when AI analysis is available.
+                    </p>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+
+            <div>
+                <strong>Smart PDS Intelligence & Decision Support System</strong>
+                <br>
+                Tamil Nadu Public Distribution System · Academic Project
+            </div>
+
+            <div>
+                Student-developed demonstration platform
+            </div>
+
+        </footer>
+
+    </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

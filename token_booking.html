@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ration Token Booking | Smart PDS</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <style>
+
+        body {
+            background: #f5f8fc;
+            font-family: "Inter", "Noto Sans Tamil", sans-serif;
+            color: #172033;
+        }
+
+        .topbar {
+            background: #123b6d;
+            color: white;
+            padding: 7px 0;
+            font-size: 11px;
+        }
+
+        .main-navbar {
+            background: white;
+            border-bottom: 1px solid #e3e8ef;
+            box-shadow: 0 3px 15px rgba(18,59,109,0.06);
+            padding: 13px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .brand img {
+            width: 47px;
+            height: 47px;
+            object-fit: contain;
+            margin-right: 12px;
+        }
+
+        .brand strong {
+            display: block;
+            color: #123b6d;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .brand span {
+            color: #7b8794;
+            font-size: 10px;
+        }
+
+        .nav-icon {
+            width: 39px;
+            height: 39px;
+            border: 1px solid #e1e7ee;
+            border-radius: 10px;
+            background: white;
+            color: #123b6d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-button {
+            border: 1px solid #e1e7ee;
+            background: white;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 25px 60px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header small {
+            color: #b18724;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+        }
+
+        .page-header h1 {
+            color: #123b6d;
+            font-size: 29px;
+            font-weight: 800;
+            margin: 5px 0;
+        }
+
+        .page-header p {
+            color: #7b8794;
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .back-button {
+            border: 1px solid #dce4ec;
+            background: white;
+            color: #123b6d;
+            border-radius: 9px;
+            padding: 9px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .booking-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 17px;
+            box-shadow: 0 6px 22px rgba(18,59,109,0.06);
+            overflow: hidden;
+        }
+
+        .booking-header {
+            background: linear-gradient(135deg, #123b6d, #1b5a8d);
+            color: white;
+            padding: 25px;
+        }
+
+        .booking-header h2 {
+            font-size: 18px;
+            font-weight: 800;
+            margin: 0 0 5px;
+        }
+
+        .booking-header p {
+            color: #d8e5ef;
+            font-size: 10px;
+            margin: 0;
+        }
+
+        .booking-body {
+            padding: 28px;
+        }
+
+        .form-label {
+            color: #344054;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #dce4ec;
+            border-radius: 9px;
+            padding: 11px 13px;
+            font-size: 11px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #123b6d;
+            box-shadow: 0 0 0 3px rgba(18,59,109,0.08);
+        }
+
+        .slot-title {
+            color: #123b6d;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 13px;
+        }
+
+        .slot-option {
+            position: relative;
+        }
+
+        .slot-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .slot-option label {
+            display: block;
+            border: 1px solid #dce4ec;
+            border-radius: 11px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-size: 10px;
+            font-weight: 700;
+            color: #344054;
+        }
+
+        .slot-option label:hover {
+            border-color: #123b6d;
+            background: #f5f8fc;
+        }
+
+        .slot-option input:checked + label {
+            background: #123b6d;
+            border-color: #123b6d;
+            color: white;
+        }
+
+        .booking-summary {
+            background: #f7f9fc;
+            border: 1px solid #e5ebf2;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 25px;
+        }
+
+        .booking-summary h3 {
+            color: #123b6d;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e8edf2;
+            font-size: 10px;
+        }
+
+        .summary-row:last-child {
+            border-bottom: 0;
+        }
+
+        .summary-row span {
+            color: #7b8794;
+        }
+
+        .summary-row strong {
+            color: #172033;
+        }
+
+        .book-button {
+            background: #123b6d;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 12px 22px;
+            font-size: 11px;
+            font-weight: 800;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .book-button:hover {
+            background: #0e315a;
+            color: white;
+        }
+
+        .notice {
+            margin-top: 20px;
+            background: #fff9e8;
+            border: 1px solid #f0dfaa;
+            border-radius: 11px;
+            padding: 13px;
+            color: #725d1c;
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            padding: 18px;
+            color: #7b8794;
+            font-size: 10px;
+        }
+
+        .footer strong {
+            color: #123b6d;
+        }
+
+        @media (max-width: 768px) {
+
+            .page-container {
+                padding: 25px 15px 45px;
+            }
+
+            .booking-body {
+                padding: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- TOP NOTICE -->
+
+<div class="topbar">
+
+    <div class="container text-center">
+
+        <i class="bi bi-info-circle-fill me-1"></i>
+
+        Academic Project • Not an Official Government Website
+
+    </div>
+
+</div>
+
+
+<!-- NAVBAR -->
+
+<nav class="main-navbar">
+
+    <div class="container-fluid px-4">
+
+        <div class="d-flex align-items-center justify-content-between">
+
+            <a href="/citizen-dashboard" class="brand">
+
+                <img
+                    src="{{ url_for('static', filename='images/tn-emblem.png') }}"
+                    alt="Tamil Nadu Government Emblem"
+                >
+
+                <div>
+
+                    <strong>SMART PDS</strong>
+
+                    <span>Citizen Services Portal</span>
+
+                </div>
+
+            </a>
+
+
+            <div class="d-flex align-items-center gap-2">
+
+                <button class="nav-icon">
+
+                    <i class="bi bi-translate"></i>
+
+                </button>
+
+                <button class="nav-icon">
+
+                    <i class="bi bi-bell"></i>
+
+                </button>
+
+
+                <div class="dropdown">
+
+                    <button
+                        class="profile-button dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                    >
+
+                        <i class="bi bi-person-circle me-1"></i>
+
+                        {{ name }}
+
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-person me-2"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="bi bi-gear me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item text-danger" href="/logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<main class="page-container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+            <div>
+
+                <small>DIGITAL RATION SERVICE</small>
+
+                <h1>Book Ration Collection Token</h1>
+
+                <p>
+                    Select your Fair Price Shop, collection date and preferred time slot.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/citizen-dashboard"
+                class="back-button"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKING CARD -->
+
+   
+            <h2>
+
+                <i class="bi bi-ticket-perforated me-2"></i>
+
+                Digital Token Booking
+
+            </h2>
+
+            <p>
+                Avoid waiting in long queues by reserving a convenient collection slot.
+            </p>
+
+        </div>
+
+
+        <div class="booking-body">
+
+
+            <form method="POST">
+
+
+                <!-- SHOP -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Fair Price Shop
+
+                    </label>
+
+                    <select
+                        class="form-select"
+                        name="shop"
+                        required
+                    >
+
+                        <option value="">
+                            Select your assigned ration shop
+                        </option>
+
+                        <option value="FPS-0125">
+                            FPS 0125 — Chennai District
+                        </option>
+
+                        <option value="FPS-0142">
+                            FPS 0142 — Chennai District
+                        </option>
+
+                        <option value="FPS-0218">
+                            FPS 0218 — Chengalpattu District
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Collection Date
+
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="collection_date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TIME SLOTS -->
+
+                <div class="mb-4">
+
+                    <div class="slot-title">
+
+                        Select Collection Time
+
+                    </div>
+
+
+                    <div class="row g-2">
+
+
+                        <div class="col-md-3 col-6 slot-option">
+
+                            <input
+                                type="radio"
+                                name="time_slot"
+                                id="slot1"
+                                value="09:00 AM - 10:00 AM"
+                                required
+                            >
+
+                            <label for="slot1">
+
+                                09:00 AM
+
+                                <br>
+
+                                <small>10:00 AM</small>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-6 slot-option">
+
+                            <input
+                                type="radio"
+                                name="time_slot"
+                                id="slot2"
+                                value="10:00 AM - 11:00 AM"
+                            >
+
+                            <label for="slot2">
+
+                                10:00 AM
+
+                                <br>
+
+                                <small>11:00 AM</small>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-6 slot-option">
+
+                            <input
+                                type="radio"
+                                name="time_slot"
+                                id="slot3"
+                                value="11:00 AM - 12:00 PM"
+                            >
+
+                            <label for="slot3">
+
+                                11:00 AM
+
+                                <br>
+
+                                <small>12:00 PM</small>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="col-md-3 col-6 slot-option">
+
+                            <input
+                                type="radio"
+                                name="time_slot"
+                                id="slot4"
+                                value="03:00 PM - 04:00 PM"
+                            >
+
+                            <label for="slot4">
+
+                                03:00 PM
+
+                                <br>
+
+                                <small>04:00 PM</small>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUMMARY -->
+
+                <div class="booking-summary">
+
+                    <h3>
+
+                        <i class="bi bi-receipt me-2"></i>
+
+                        Booking Information
+
+                    </h3>
+
+
+                    <div class="summary-row">
+
+                        <span>Citizen</span>
+
+                        <strong>{{ name }}</strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>Service</span>
+
+                        <strong>Monthly Ration Collection</strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>Token Type</span>
+
+                        <strong>Digital Collection Token</strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOOK -->
+
+                <button
+                    type="submit"
+                    class="book-button"
+                >
+
+                    <i class="bi bi-ticket-perforated-fill me-2"></i>
+
+                    Confirm & Generate Token
+
+                </button>
+
+
+            </form>
+            {% if success %}
+
+<div class="alert alert-success mt-4">
+
+    <i class="bi bi-check-circle-fill me-2"></i>
+
+    <strong>{{ success }}</strong>
+
+    <hr>
+
+    <div class="mt-2">
+        <strong>Token Number:</strong>
+        {{ token_number }}
+    </div>
+
+    <div class="mt-2">
+        <strong>Fair Price Shop:</strong>
+        {{ booked_shop }}
+    </div>
+
+    <div class="mt-2">
+        <strong>Collection Date:</strong>
+        {{ booked_date }}
+    </div>
+
+    <div class="mt-2">
+        <strong>Collection Time:</strong>
+        {{ booked_time }}
+    </div>
+
+</div>
+
+{% endif %}
+
+
+            <div class="notice">
+
+                <i class="bi bi-info-circle-fill me-2"></i>
+
+                Please carry your ration card or required identification
+                when visiting the Fair Price Shop for collection.
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <strong>Smart PDS</strong>
+
+    • AI-Based Public Distribution System
+
+    <br>
+
+    Academic / Student Project • Tamil Nadu
+
+</footer>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>
